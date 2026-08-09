@@ -3,116 +3,115 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>نتيجة تجريبية</title>
+<title>الاستعلام عن النتائج - نموذج تجريبي</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#f4f6f8;font-family:Tahoma,Arial,sans-serif;color:#171717}
-.header{background:linear-gradient(135deg,#087b75,#075b55);color:#fff;border-radius:0 0 42px 42px;padding:38px 24px 48px;text-align:center}
-.header h1{margin:0 0 14px;font-size:30px}
-.header p{margin:0;font-size:20px}
-.demo{display:inline-block;margin-top:18px;background:#fff;color:#087b75;border-radius:20px;padding:7px 15px;font-size:13px;font-weight:bold}
-.container{max-width:720px;margin:-2px auto 30px;padding:25px}
-.card{background:#fff;border:3px solid #dce9e6;border-radius:30px;margin-bottom:22px;padding:24px;box-shadow:0 2px 8px #00000008}
-.info{display:flex;justify-content:space-between;align-items:center;gap:20px}
-.label{color:#777;font-size:17px;margin-bottom:7px}
-.value{font-size:23px;font-weight:bold}
-.number{text-align:left;direction:ltr}
-.result{display:flex;align-items:center;justify-content:space-around;text-align:center}
-.badge{width:120px;height:120px;border-radius:50%;background:#e3f0e9;display:flex;align-items:center;justify-content:center;color:#158044;font-size:22px;font-weight:bold}
-.total b{color:#198746;font-size:27px}
-.percent{width:105px;height:105px;border:8px solid #dcebe4;border-top-color:#168844;border-right-color:#168844;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#168844;font-size:18px;font-weight:bold;margin:12px auto 0}
-.table-wrap{overflow:hidden;border-radius:28px;border:3px solid #dce9e6;background:#fff}
-table{width:100%;border-collapse:collapse;text-align:center;font-size:18px}
-th{background:#176f65;color:#fff;padding:18px 8px;font-size:19px}
-td{padding:17px 7px;border:1px solid #d9dde0}
-td:last-child{text-align:right;font-weight:bold;padding-right:18px}
-.final{font-size:22px;font-weight:bold}
-.search{display:flex;gap:10px;margin-bottom:20px}
-.search input{flex:1;padding:15px;border:2px solid #cbded9;border-radius:15px;font-size:17px;text-align:center}
-.search button{border:0;background:#14796e;color:white;border-radius:15px;padding:0 22px;font-size:17px;cursor:pointer}
-.note{text-align:center;color:#777;font-size:13px;margin-top:18px}
+body{margin:0;background:#f3f5f6;color:#171717;font-family:Tahoma,Arial,sans-serif}
+.header{height:255px;background:linear-gradient(135deg,#087a73,#07564f);border-radius:0 0 55px 55px;color:#fff;text-align:center;padding:78px 20px 20px}
+.header h1{font-size:34px;margin:0 0 22px;font-weight:800}
+.header p{font-size:22px;margin:0;line-height:1.6}
+.demo{display:inline-block;margin-top:13px;background:#ffffff;color:#08736c;padding:5px 13px;border-radius:15px;font-size:12px;font-weight:bold}
+.panel{max-width:650px;min-height:1100px;margin:25px auto 0;background:#fff;border-radius:42px;border-top:7px solid #d8d7b1;padding:36px 28px 70px;box-shadow:0 1px 5px #0000000a}
+.field{margin-bottom:28px}
+label{display:block;text-align:right;font-size:24px;font-weight:bold;margin:0 8px 12px}
+select,input{width:100%;height:102px;border:2px solid #8ca7a4;border-radius:23px;background:#fff;padding:0 25px;font-size:25px;font-family:inherit;color:#222;outline:none;appearance:auto}
+input::placeholder{color:#d1d1d1}
+.buttons{margin-top:12px}
+button{width:100%;height:88px;border:0;border-radius:22px;background:linear-gradient(135deg,#006b63,#087d75);color:#fff;font-family:inherit;font-size:27px;cursor:pointer;margin-bottom:20px;box-shadow:0 4px 8px #00000018}
+.result{display:none;margin-top:30px;border:2px solid #dce8e5;border-radius:24px;padding:22px;text-align:center}
+.result h2{color:#08766e;margin:0 0 10px}
+.note{font-size:13px;color:#777;text-align:center;margin-top:25px}
 @media(max-width:600px){
- .container{padding:16px}
- .header h1{font-size:26px}.header p{font-size:17px}
- .card{padding:18px}.value{font-size:19px}.label{font-size:15px}
- table{font-size:15px}th{font-size:16px;padding:15px 4px}td{padding:14px 4px}
- .badge{width:95px;height:95px;font-size:18px}.percent{width:88px;height:88px}
+.header{height:255px;padding-top:78px}
+.header h1{font-size:29px}.header p{font-size:19px}
+.panel{margin:25px 28px 0;padding:35px 28px;min-height:1050px}
+label{font-size:21px}
+select,input{height:94px;font-size:22px}
+button{font-size:24px;height:84px}
 }
 </style>
 </head>
 <body>
-
 <header class="header">
-  <h1>نتيجة امتحان</h1>
-  <p>الثانوي - علمي - منهاج إدلب | 2026</p>
-  <span class="demo">نتيجة تجريبية - غير رسمية</span>
+  <h1>الاستعلام عن النتائج</h1>
+  <p>أدخل البيانات المطلوبة للبحث عن النتيجة الامتحانية</p>
+  <span class="demo">نموذج تجريبي - غير رسمي</span>
 </header>
 
-<main class="container">
-
-  <div class="search">
-    <input id="examNo" type="text" maxlength="10" placeholder="أدخل الرقم الاكتتابي">
-    <button onclick="showResult()">بحث</button>
+<main class="panel">
+  <div class="field">
+    <label>السنة الدراسية</label>
+    <select id="year">
+      <option>2026 - 2025</option>
+      <option>2025 - 2024</option>
+      <option>2024 - 2023</option>
+    </select>
   </div>
 
-  <section id="result" style="display:none">
-    <div class="card">
-      <div class="info">
-        <div>
-          <div class="label">اسم الطالب</div>
-          <div class="value">عبد الرحمن خالد الطويل</div>
-        </div>
-        <div class="number">
-          <div class="label">الرقم الاكتتابي</div>
-          <div class="value">575294</div>
-        </div>
-      </div>
-    </div>
+  <div class="field">
+    <label>المحافظة</label>
+    <select id="province">
+      <option>حلب</option>
+      <option>إدلب</option>
+      <option>دمشق</option>
+      <option>ريف دمشق</option>
+      <option>حمص</option>
+      <option>حماة</option>
+      <option>اللاذقية</option>
+      <option>طرطوس</option>
+      <option>دير الزور</option>
+      <option>الرقة</option>
+      <option>الحسكة</option>
+      <option>درعا</option>
+      <option>السويداء</option>
+      <option>القنيطرة</option>
+    </select>
+  </div>
 
-    <div class="card result">
-      <div class="badge">✓<br>ناجح</div>
-      <div class="total">
-        <div class="label">المجموع العام</div>
-        <div><b>1809</b> / 2400</div>
-        <div class="percent">75.40%</div>
-      </div>
-    </div>
+  <div class="field">
+    <label>الشهادة</label>
+    <select id="certificate">
+      <option>الثانوي - علمي - منهاج دمشق</option>
+      <option>الثانوي - علمي - منهاج حلب</option>
+      <option>الثانوي - أدبي</option>
+      <option>التعليم الأساسي</option>
+      <option>الثانوية المهنية</option>
+    </select>
+  </div>
 
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>المادة</th>
-            <th>الدنيا</th>
-            <th>العظمى</th>
-            <th>النهائية</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>اللغة العربية</td><td>160</td><td>400</td><td class="final">333</td></tr>
-          <tr><td>الرياضيات</td><td>240</td><td>600</td><td class="final">240</td></tr>
-          <tr><td>الفيزياء</td><td>160</td><td>400</td><td class="final">229</td></tr>
-          <tr><td>التربية الدينية</td><td>80</td><td>200</td><td class="final">165</td></tr>
-          <tr><td>الكيمياء</td><td>80</td><td>200</td><td class="final">151</td></tr>
-          <tr><td>علم الأحياء</td><td>120</td><td>300</td><td class="final">151</td></tr>
-          <tr><td>اللغة الإنكليزية</td><td>120</td><td>300</td><td class="final">165</td></tr>
-          <tr><td>لغة فرنسية</td><td>120</td><td>300</td><td class="final">157</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="note">هذه الصفحة نموذج تجريبي وليست نتيجة رسمية.</p>
-  </section>
+  <div class="field">
+    <label>رقم الاكتتاب</label>
+    <input id="examNo" type="text" inputmode="numeric" maxlength="10" placeholder="123456">
+  </div>
+
+  <div class="buttons">
+    <button onclick="searchResult()">⌕ &nbsp; استعلام عن النتيجة</button>
+    <button onclick="topStudents()">★ &nbsp; الطلاب الأوائل</button>
+  </div>
+
+  <div class="result" id="result">
+    <h2>نتيجة تجريبية</h2>
+    <div id="resultText"></div>
+  </div>
+
+  <p class="note">هذه الصفحة نموذج تجريبي وليست موقع نتائج رسمي.</p>
 </main>
 
 <script>
-function showResult(){
-  const n=document.getElementById("examNo").value.trim();
-  if(n==="575294"){
-    document.getElementById("result").style.display="block";
+function searchResult(){
+  const no=document.getElementById('examNo').value.trim();
+  const box=document.getElementById('result');
+  const text=document.getElementById('resultText');
+  if(no==='575294'){
+    box.style.display='block';
+    text.innerHTML='<b>عبد الرحمن خالد الطويل</b><br>ناجح<br><br>المجموع: 1809 / 2400<br>المعدل: 75.40%';
   }else{
-    alert("هذا الرقم غير موجود في البيانات التجريبية.");
-    document.getElementById("result").style.display="none";
+    box.style.display='block';
+    text.innerHTML='يرجى إدخال رقم اكتتاب تجريبي صحيح.';
   }
+}
+function topStudents(){
+  alert('قسم الطلاب الأوائل تجريبي.');
 }
 </script>
 </body>
