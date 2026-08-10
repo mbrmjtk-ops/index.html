@@ -1,120 +1,335 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>نتيجة امتحان</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;background:#f2f5f6;color:#171717;font-family:Tahoma,Arial,sans-serif}
-.header{height:260px;background:linear-gradient(135deg,#087a73,#07564f);border-radius:0 0 48px 48px;color:#fff;text-align:center;padding:82px 20px 20px}
-.header h1{font-size:32px;margin:0 0 14px;font-weight:800}.header p{font-size:21px;margin:0}
-.page{max-width:720px;margin:28px auto;padding:0 25px}
-.card{background:#fff;border:3px solid #dce8e5;border-radius:30px;margin-bottom:22px;overflow:hidden}
-.info{padding:26px 28px;display:grid;grid-template-columns:1fr 1fr;gap:25px;align-items:center}
-.info .right{text-align:right}.info .left{text-align:left;direction:rtl}
-.label{color:#777;font-size:18px;margin-bottom:8px}.value{font-size:25px;font-weight:bold}
-.summary{padding:25px 30px;display:flex;align-items:center;justify-content:space-around;min-height:210px}
-.success{width:150px;height:150px;border-radius:48%;background:#dcefe4;color:#168442;display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:23px}
-.success .check{width:50px;height:50px;background:#24944d;color:#fff;clip-path:polygon(50% 0,61% 12%,77% 8%,84% 24%,100% 31%,91% 47%,100% 62%,84% 70%,80% 88%,62% 84%,50% 100%,38% 88%,20% 92%,16% 74%,0 66%,9% 50%,0 34%,16% 26%,22% 9%,39% 13%);display:flex;align-items:center;justify-content:center;font-size:25px;margin-bottom:8px}
-.total{text-align:center;font-size:24px}.total b{color:#1c8a47;font-size:29px}
-.circle{width:112px;height:112px;border-radius:50%;border:8px solid #dcebe4;border-top-color:#168844;border-right-color:#168844;display:flex;align-items:center;justify-content:center;color:#168844;font-weight:bold;font-size:20px;margin:12px auto 0}
-.table-wrap{border-radius:30px;overflow:hidden;border:3px solid #dce8e5}
-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:19px}
-th{background:#176e65;color:#fff;padding:17px 8px;font-size:20px}
-td{padding:17px 7px;border:1px solid #d8dcde;text-align:center}
-td:first-child{text-align:right;padding-right:17px;width:39%}
-td:last-child{font-size:23px;font-weight:bold}
-.back{width:100%;border:0;background:#0a746c;color:#fff;border-radius:18px;padding:16px;font-family:inherit;font-size:19px;margin-top:20px}
-@media(max-width:600px){
-.header{height:260px;padding-top:82px}.header h1{font-size:28px}.header p{font-size:18px}
-.page{padding:0 25px}.info{padding:25px 28px}.value{font-size:21px}.label{font-size:16px}
-.summary{padding:22px 14px}.success{width:130px;height:130px}.total{font-size:20px}
-.circle{width:100px;height:100px}.table-wrap{border-radius:28px}table{font-size:16px}th{font-size:17px}td{padding:15px 4px}td:first-child{padding-right:10px}td:last-child{font-size:20px}
-}
-</style>
-</head>
-<body>
-
-<div id="searchPage">
-<header class="header">
-<h1>الاستعلام عن النتائج</h1>
-<p>أدخل البيانات المطلوبة للبحث عن النتيجة الامتحانية</p>
-</header>
-<div class="page">
-<div class="card" style="padding:25px">
-<label class="label">السنة الدراسية</label>
-<select id="year" style="width:100%;height:65px;border:2px solid #8ca7a4;border-radius:18px;padding:0 15px;font-size:20px;font-family:inherit"><option>2026 - 2025</option></select>
-<br><br>
-<label class="label">المحافظة</label>
-<select id="province" style="width:100%;height:65px;border:2px solid #8ca7a4;border-radius:18px;padding:0 15px;font-size:20px;font-family:inherit">
-<option>حلب</option><option>إدلب</option><option>دمشق</option><option>ريف دمشق</option><option>حمص</option><option>حماة</option><option>اللاذقية</option><option>طرطوس</option><option>دير الزور</option><option>الرقة</option><option>الحسكة</option><option>درعا</option><option>السويداء</option><option>القنيطرة</option>
-</select>
-<br><br>
-<label class="label">الشهادة</label>
-<select id="certificate" style="width:100%;height:65px;border:2px solid #8ca7a4;border-radius:18px;padding:0 15px;font-size:20px;font-family:inherit"><option>الثانوي - علمي - منهاج إدلب</option><option>الثانوي - علمي - منهاج حلب</option><option>الثانوي - علمي - منهاج دمشق</option><option>الثانوي - أدبي</option></select>
-<br><br>
-<label class="label">رقم الاكتتاب</label>
-<input id="examNo" inputmode="numeric" placeholder="1746837" style="width:100%;height:65px;border:2px solid #ddd;border-radius:18px;padding:0 15px;font-size:20px;text-align:right">
-<br><br>
-<button onclick="showResult()" style="width:100%;height:70px;border:0;border-radius:18px;background:#08756d;color:white;font-family:inherit;font-size:22px">⌕ &nbsp; استعلام عن النتيجة</button>
-</div>
-<p style="text-align:center;color:#777;font-size:12px">جميع الحقوق محفوظة - وزارة التربية</p>
-</div>
-</div>
+<!-- =========================
+     صفحة النتيجة
+     ========================= -->
 
 <div id="resultPage" style="display:none">
+
 <header class="header">
-<h1>نتيجة امتحان</h1>
-<p>الثانوي - علمي - منهاج إدلب | 2026</p>
+
+    <h1>نتيجة امتحان</h1>
+
+    <p id="resultCertificate">
+        الثانوي - علمي - منهاج إدلب | 2026
+    </p>
+
 </header>
+
 <main class="page">
+
+
+<!-- =========================
+     معلومات الطالب
+     ========================= -->
+
 <div class="card">
+
 <div class="info">
-<div class="right"><div class="label">اسم الطالب</div><div class="value">عبد الرحمن خالد الطويل</div></div>
-<div class="left"><div class="label">الرقم الامتحاني</div><div class="value">1746837</div></div>
-</div>
-</div>
-<div class="card">
-<div class="summary">
-<div class="success"><div class="check">✓</div><span>ناجح</span></div>
-<div class="total"><div class="label">المجموع العام</div><div><b>1809</b> / 2400</div><div class="circle">75.40%</div></div>
-</div>
-</div>
-<div class="table-wrap">
-<table>
-<thead><tr><th>المادة</th><th>الدنيا</th><th>العظمى</th><th>النهائية</th></tr></thead>
-<tbody>
-<tr><td>اللغة العربية</td><td>160</td><td>400</td><td>333</td></tr>
-<tr><td>الرياضيات</td><td>240</td><td>600</td><td>240</td></tr>
-<tr><td>الفيزياء</td><td>160</td><td>400</td><td>229</td></tr>
-<tr><td>التربية الدينية</td><td>80</td><td>200</td><td>165</td></tr>
-<tr><td>الكيمياء</td><td>80</td><td>200</td><td>151</td></tr>
-<tr><td>علم الأحياء</td><td>120</td><td>300</td><td>151</td></tr>
-<tr><td>اللغة الإنجليزية</td><td>120</td><td>300</td><td>165</td></tr>
-<tr><td>لغة فرنسية</td><td>120</td><td>300</td><td>157</td></tr>
-</tbody>
-</table>
-</div>
-<button class="back" onclick="backToSearch()">← العودة للاستعلام</button>
-<p style="text-align:center;color:#777;font-size:12px">جميع الحقوق محفوظة - وزارة التربية</p>
-</main>
+
+<div class="right">
+
+    <div class="label">
+        اسم الطالب
+    </div>
+
+    <div class="value" id="studentName">
+        -
+    </div>
+
 </div>
 
+<div class="left">
+
+    <div class="label">
+        الرقم الامتحاني
+    </div>
+
+    <div class="value" id="studentExamNo">
+        -
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     المعدل والنجاح
+     ========================= -->
+
+<div class="card">
+
+<div class="summary">
+
+    <div class="success-box">
+
+        <div class="success-badge">
+            ✓
+        </div>
+
+        <span id="resultStatus">
+            ناجح
+        </span>
+
+    </div>
+
+
+    <div class="total">
+
+        <div class="label">
+            المجموع العام
+        </div>
+
+        <div>
+            <b id="studentTotal">0</b>
+            /
+            <span id="studentMax">0</span>
+        </div>
+
+        <div class="circle" id="studentPercentage">
+            0%
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     جدول العلامات
+     ========================= -->
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+    <th>المادة</th>
+    <th>الدنيا</th>
+    <th>العظمى</th>
+    <th>النهائية</th>
+</tr>
+
+</thead>
+
+<tbody id="marksTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<button class="back" onclick="backToSearch()">
+    ← العودة للاستعلام
+</button>
+
+</main>
+
+</div>
+
+
 <script>
+
+/* =========================
+   بيانات النتائج
+   ========================= */
+
+const demoResults = {
+
+    "575294": {
+
+        name: "عبد الرحمن خالد الطويل",
+
+        examNo: "575294",
+
+        certificate: "الثانوي - علمي - منهاج إدلب | 2026",
+
+        total: "1809",
+
+        max: "2400",
+
+        percentage: "75.40%",
+
+        status: "ناجح",
+
+        subjects: [
+
+            ["اللغة العربية", "160", "400", "333"],
+
+            ["الرياضيات", "240", "600", "240"],
+
+            ["الفيزياء", "160", "400", "229"],
+
+            ["التربية الدينية", "80", "200", "165"],
+
+            ["الكيمياء", "80", "200", "151"],
+
+            ["علم الأحياء", "120", "300", "151"],
+
+            ["اللغة الإنكليزية", "120", "300", "165"],
+
+            ["لغة فرنسية", "120", "300", "157"]
+
+        ]
+
+    },
+
+
+    "1731940": {
+
+        name: "خالد حسين الطويل",
+
+        examNo: "1731940",
+
+        certificate: "الثانوي - أدبي - منهاج إدلب | 2026",
+
+        total: "1592",
+
+        max: "2200",
+
+        percentage: "72.36%",
+
+        status: "ناجح",
+
+        subjects: [
+
+            ["اللغة العربية", "300", "600", "473"],
+
+            ["الجغرافيا", "120", "300", "248"],
+
+            ["الفلسفة والعلوم الإنسانية", "160", "400", "200"],
+
+            ["التاريخ", "120", "300", "180"],
+
+            ["التربية الدينية", "80", "200", "178"],
+
+            ["اللغة الإنجليزية", "160", "400", "313"],
+
+            ["لغة فرنسية", "160", "400", "266"]
+
+        ]
+
+    }
+
+};
+
+
+/* =========================
+   إظهار النتيجة
+   ========================= */
+
 function showResult(){
- const n=document.getElementById('examNo').value.trim();
- if(n==='1746837'){
-   document.getElementById('searchPage').style.display='none';
-   document.getElementById('resultPage').style.display='block';
-   window.scrollTo(0,0);
- }else alert('أدخل الرقم التجريبي 1746837');
+
+    const n =
+        document.getElementById('examNo').value.trim();
+
+    const result = demoResults[n];
+
+    if(!result){
+
+        alert("لا توجد نتيجة لهذا الرقم");
+
+        return;
+
+    }
+
+
+    /* إخفاء صفحة البحث */
+
+    document.getElementById('searchPage').style.display =
+        'none';
+
+
+    /* إظهار صفحة النتيجة */
+
+    document.getElementById('resultPage').style.display =
+        'block';
+
+
+    /* البيانات الأساسية */
+
+    document.getElementById('studentName').textContent =
+        result.name;
+
+    document.getElementById('studentExamNo').textContent =
+        result.examNo;
+
+    document.getElementById('resultCertificate').textContent =
+        result.certificate;
+
+
+    /* المجموع */
+
+    document.getElementById('studentTotal').textContent =
+        result.total;
+
+    document.getElementById('studentMax').textContent =
+        result.max;
+
+    document.getElementById('studentPercentage').textContent =
+        result.percentage;
+
+    document.getElementById('resultStatus').textContent =
+        result.status;
+
+
+    /* =========================
+       بناء جدول العلامات
+       ========================= */
+
+    const table =
+        document.getElementById('marksTable');
+
+    table.innerHTML = "";
+
+
+    result.subjects.forEach(function(subject){
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+
+            <td>${subject[0]}</td>
+
+            <td>${subject[1]}</td>
+
+            <td>${subject[2]}</td>
+
+            <td>${subject[3]}</td>
+
+        `;
+
+        table.appendChild(row);
+
+    });
+
+
+    window.scrollTo(0,0);
+
 }
+
+
+/* =========================
+   العودة لصفحة البحث
+   ========================= */
+
 function backToSearch(){
- document.getElementById('resultPage').style.display='none';
- document.getElementById('searchPage').style.display='block';
- window.scrollTo(0,0);
+
+    document.getElementById('resultPage').style.display =
+        'none';
+
+    document.getElementById('searchPage').style.display =
+        'block';
+
+    window.scrollTo(0,0);
+
 }
+
 </script>
-</body>
-</html>
