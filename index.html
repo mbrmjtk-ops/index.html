@@ -2,799 +2,297 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>قتال الأساطير</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>عمو أبو خالد ❤️</title>
 
 <style>
+
 *{
     box-sizing:border-box;
     margin:0;
     padding:0;
-    user-select:none;
 }
 
 body{
+    min-height:100vh;
     overflow:hidden;
-    background:#080b13;
-    font-family:Tahoma,Arial,sans-serif;
-    color:white;
-}
-
-.game{
-    width:100vw;
-    height:100vh;
-    position:relative;
-    overflow:hidden;
-    background:
-        radial-gradient(circle at 50% 30%,#293a58 0%,#111827 45%,#05070c 100%);
-}
-
-/* النجوم */
-.game::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background-image:
-        radial-gradient(#fff 1px,transparent 1px),
-        radial-gradient(#fff 1px,transparent 1px);
-    background-size:80px 80px,130px 130px;
-    background-position:10px 20px,50px 70px;
-    opacity:.15;
-}
-
-/* العنوان */
-.title{
-    position:absolute;
-    top:12px;
-    width:100%;
-    text-align:center;
-    z-index:10;
-    font-size:25px;
-    font-weight:bold;
-    text-shadow:0 3px 15px #000;
-}
-
-/* لوحة الصحة */
-.hud{
-    position:absolute;
-    top:55px;
-    width:100%;
     display:flex;
     justify-content:center;
     align-items:center;
-    gap:15px;
-    padding:0 15px;
-    z-index:10;
+    font-family:Tahoma,Arial,sans-serif;
+    background:#05070d;
+    color:white;
 }
 
-.player{
-    width:min(38vw,300px);
-}
-
-.name{
-    font-weight:bold;
-    margin-bottom:5px;
-    text-shadow:0 2px 5px #000;
-}
-
-.health{
-    height:22px;
-    background:#202633;
-    border:2px solid #fff;
-    border-radius:20px;
-    overflow:hidden;
-    box-shadow:0 0 12px #000;
-}
-
-.hp{
-    height:100%;
-    width:100%;
-    transition:.25s;
-}
-
-.hp1{
-    background:linear-gradient(90deg,#00e5ff,#168cff);
-}
-
-.hp2{
-    background:linear-gradient(90deg,#ff315c,#ff8a00);
-}
-
-.vs{
-    font-size:22px;
-    font-weight:bold;
-}
-
-/* الساحة */
-.arena{
-    position:absolute;
+.bg{
+    position:fixed;
     inset:0;
-    display:flex;
-    align-items:flex-end;
-    justify-content:center;
-    padding-bottom:125px;
-}
-
-.floor{
-    position:absolute;
-    bottom:80px;
-    width:100%;
-    height:140px;
     background:
-        linear-gradient(180deg,#171d2a,#090c12);
-    border-top:3px solid #39465d;
-    box-shadow:0 -20px 50px rgba(0,0,0,.5);
+        radial-gradient(circle at center,#14243b,#05070d 65%);
+    transition:1s;
 }
 
-/* الشخصيات */
-.fighter{
+.light{
     position:absolute;
-    bottom:105px;
-    width:100px;
-    height:150px;
-    transition:left .08s,bottom .08s;
+    width:400px;
+    height:400px;
+    border-radius:50%;
+    background:#00c8ff;
+    filter:blur(100px);
+    opacity:.08;
+    transition:1s;
+}
+
+.card{
+    position:relative;
     z-index:5;
+    width:90%;
+    max-width:430px;
+    padding:45px 25px;
+    text-align:center;
+    border-radius:30px;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.12);
+    backdrop-filter:blur(20px);
+    box-shadow:0 25px 80px rgba(0,0,0,.6);
 }
 
-.f1{
-    left:20%;
+.icon{
+    font-size:80px;
+    margin-bottom:20px;
+    transition:.5s;
 }
 
-.f2{
-    right:20%;
-    transform:scaleX(-1);
+h1{
+    font-size:30px;
+    line-height:1.5;
+    margin-bottom:12px;
 }
 
-/* رأس */
-.head{
-    position:absolute;
-    top:5px;
-    left:25px;
-    width:50px;
-    height:50px;
-    border-radius:50%;
-    background:#f1b48c;
-    border:4px solid #161616;
+p{
+    color:#9eabc0;
+    font-size:16px;
 }
 
-/* شعر */
-.head::before{
-    content:"";
-    position:absolute;
-    top:-6px;
-    left:0;
-    width:50px;
-    height:22px;
-    border-radius:30px 30px 10px 10px;
-    background:#161616;
-}
-
-/* جسم */
-.body{
-    position:absolute;
-    top:52px;
-    left:28px;
-    width:44px;
-    height:58px;
+.status{
+    margin-top:25px;
+    padding:12px;
     border-radius:15px;
-    background:linear-gradient(#15b8ff,#0754a3);
-    border:4px solid #111;
+    background:rgba(255,255,255,.06);
+    color:#aebbd0;
 }
 
-/* الأرجل */
-.leg{
-    position:absolute;
-    top:105px;
-    width:18px;
-    height:50px;
-    border-radius:10px;
-    background:#182536;
-    border:4px solid #111;
+/* عند الشحن */
+
+.charging .bg{
+    background:
+        radial-gradient(circle at center,#064d61,#05070d 70%);
 }
 
-.leg1{
-    left:27px;
+.charging .light{
+    opacity:.55;
+    transform:scale(1.4);
 }
 
-.leg2{
-    left:57px;
+.charging .icon{
+    animation:pulse 1s infinite alternate;
+    filter:drop-shadow(0 0 25px #00eaff);
 }
 
-/* الأيدي */
-.arm{
-    position:absolute;
-    top:58px;
-    width:17px;
-    height:55px;
-    border-radius:10px;
-    background:#f1b48c;
-    border:4px solid #111;
-    transform-origin:top center;
+.charging h1{
+    text-shadow:
+        0 0 10px #00eaff,
+        0 0 30px #00c8ff;
 }
 
-.arm1{
-    left:10px;
-    transform:rotate(25deg);
+.charging .status{
+    color:#00eaff;
+    border:1px solid rgba(0,234,255,.3);
 }
 
-.arm2{
-    left:73px;
-    transform:rotate(-25deg);
+@keyframes pulse{
+    from{
+        transform:scale(1);
+    }
+    to{
+        transform:scale(1.15);
+    }
 }
 
-/* وضعية الضرب */
-.fighter.attack .arm2{
-    transform:rotate(-90deg);
-    height:70px;
-}
+/* الشرارات */
 
-.fighter.kick .leg2{
-    transform:rotate(55deg);
-    transform-origin:top;
-    height:65px;
-}
-
-.fighter.hit{
-    animation:shake .18s linear;
-}
-
-@keyframes shake{
-    0%{transform:translateX(0)}
-    25%{transform:translateX(-8px)}
-    50%{transform:translateX(8px)}
-    75%{transform:translateX(-5px)}
-    100%{transform:translateX(0)}
-}
-
-/* تأثير الضربة */
-.hitEffect{
-    position:absolute;
-    width:70px;
-    height:70px;
+.spark{
+    position:fixed;
+    width:5px;
+    height:5px;
+    background:#00eaff;
     border-radius:50%;
-    border:5px solid #fff;
-    opacity:0;
     pointer-events:none;
-    z-index:20;
+    animation:fly 2s linear forwards;
 }
 
-.hitEffect.show{
-    animation:boom .35s ease-out;
-}
-
-@keyframes boom{
-    0%{
-        transform:scale(.2);
+@keyframes fly{
+    from{
+        transform:translateY(0) scale(1);
         opacity:1;
     }
-    100%{
-        transform:scale(1.7);
+    to{
+        transform:translateY(-250px) scale(0);
         opacity:0;
     }
 }
 
-/* رسالة الفوز */
-.message{
-    position:absolute;
-    inset:0;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    background:rgba(0,0,0,.65);
-    backdrop-filter:blur(5px);
-    z-index:50;
-}
-
-.message.show{
-    display:flex;
-}
-
-.message h2{
-    font-size:42px;
-    margin-bottom:20px;
-    text-shadow:0 0 25px #00d9ff;
-}
-
-.restart{
-    border:0;
-    padding:15px 35px;
-    border-radius:15px;
-    background:#00c8ff;
-    color:#061019;
-    font-size:18px;
-    font-weight:bold;
-}
-
-/* أزرار */
-.controls{
-    position:absolute;
-    bottom:12px;
-    left:0;
-    right:0;
-    display:flex;
-    justify-content:space-between;
-    padding:0 18px;
-    z-index:30;
-}
-
-.controlGroup{
-    display:flex;
-    gap:10px;
-}
-
-.btn{
-    width:65px;
-    height:65px;
-    border:2px solid rgba(255,255,255,.2);
-    border-radius:50%;
-    background:rgba(255,255,255,.1);
-    color:white;
-    font-size:25px;
-    backdrop-filter:blur(10px);
-    box-shadow:0 8px 20px #0008;
-    touch-action:none;
-}
-
-.btn:active{
-    transform:scale(.9);
-    background:#00a9d9;
-}
-
-.info{
-    position:absolute;
-    bottom:92px;
-    width:100%;
-    text-align:center;
-    color:#9ba7ba;
-    font-size:12px;
-}
 </style>
 </head>
 
 <body>
 
-<div class="game">
+<div class="bg"></div>
+<div class="light"></div>
 
-<div class="title">⚔️ قتال الأساطير ⚔️</div>
+<div class="card">
 
-<div class="hud">
-
-    <div class="player">
-        <div class="name">🥊 أبو حسين</div>
-        <div class="health">
-            <div id="hp1" class="hp hp1"></div>
-        </div>
+    <div class="icon" id="icon">
+        🔌
     </div>
 
-    <div class="vs">VS</div>
+    <h1 id="message">
+        عاشت إيدك عمو أبو خالد ❤️
+    </h1>
 
-    <div class="player">
-        <div class="name">🥊 أبو خالد</div>
-        <div class="health">
-            <div id="hp2" class="hp hp2"></div>
-        </div>
-    </div>
+    <p id="sub">
+        وصّل الشاحن وخلي الباقي علينا 😎
+    </p>
 
-</div>
-
-<div class="arena">
-
-    <div class="floor"></div>
-
-    <div id="fighter1" class="fighter f1">
-
-        <div class="head"></div>
-
-        <div class="body"></div>
-
-        <div class="arm arm1"></div>
-        <div class="arm arm2"></div>
-
-        <div class="leg leg1"></div>
-        <div class="leg leg2"></div>
-
-    </div>
-
-    <div id="fighter2" class="fighter f2">
-
-        <div class="head"></div>
-
-        <div class="body"></div>
-
-        <div class="arm arm1"></div>
-        <div class="arm arm2"></div>
-
-        <div class="leg leg1"></div>
-        <div class="leg leg2"></div>
-
+    <div class="status" id="status">
+        جاري التحقق من حالة الشحن...
     </div>
 
 </div>
 
-<div class="info">
-    أبو حسين: A / D للحركة — F ضربة — G ركلة
-</div>
-
-<div class="controls">
-
-    <div class="controlGroup">
-        <button class="btn" data-key="a">◀</button>
-        <button class="btn" data-key="d">▶</button>
-        <button class="btn" data-key="f">👊</button>
-        <button class="btn" data-key="g">🦵</button>
-    </div>
-
-</div>
-
-<div id="effect" class="hitEffect"></div>
-
-<div id="message" class="message">
-
-    <h2 id="winner"></h2>
-
-    <button class="restart" onclick="restartGame()">
-        🔄 إعادة القتال
-    </button>
-
-</div>
-
-</div>
 
 <script>
 
-const fighter1 =
-document.getElementById("fighter1");
+const body = document.body;
 
-const fighter2 =
-document.getElementById("fighter2");
-
-const hp1 =
-document.getElementById("hp1");
-
-const hp2 =
-document.getElementById("hp2");
+const icon =
+document.getElementById("icon");
 
 const message =
 document.getElementById("message");
 
-const winner =
-document.getElementById("winner");
+const sub =
+document.getElementById("sub");
 
-const effect =
-document.getElementById("effect");
-
-
-let health1 = 100;
-let health2 = 100;
-
-let pos1 = 20;
-let pos2 = 20;
-
-let attacking1 = false;
-let attacking2 = false;
-
-let gameOver = false;
+const status =
+document.getElementById("status");
 
 
-/* حركة اللاعب */
+function charging(){
 
-function movePlayer(player,direction){
+    body.classList.add("charging");
 
-    if(gameOver) return;
+    icon.textContent = "⚡🔋";
 
-    if(player === 1){
+    message.textContent =
+        "عاشت إيدك عمو أبو خالد ❤️";
 
-        pos1 += direction * 2;
+    sub.textContent =
+        "الشاحن وصل... دير بالك لا تكهربنا 😂";
 
-        pos1 = Math.max(5,Math.min(55,pos1));
+    status.textContent =
+        "⚡ الهاتف قيد الشحن";
 
-        fighter1.style.left = pos1 + "%";
+    createSparks();
+
+}
+
+
+function notCharging(){
+
+    body.classList.remove("charging");
+
+    icon.textContent = "🔌";
+
+    message.textContent =
+        "عاشت إيدك عمو أبو خالد ❤️";
+
+    sub.textContent =
+        "وصّل الشاحن وخلي الباقي علينا 😎";
+
+    status.textContent =
+        "🔋 الهاتف غير متصل بالشاحن";
+
+}
+
+
+function createSparks(){
+
+    for(let i=0;i<20;i++){
+
+        const spark =
+            document.createElement("div");
+
+        spark.className = "spark";
+
+        spark.style.left =
+            Math.random()*100 + "vw";
+
+        spark.style.top =
+            (50 + Math.random()*40) + "vh";
+
+        spark.style.animationDelay =
+            Math.random()*1.5 + "s";
+
+        document.body.appendChild(spark);
+
+        setTimeout(()=>{
+            spark.remove();
+        },2500);
 
     }
 
 }
 
 
-/* الهجوم */
+/*
+    فحص حالة البطارية
+*/
 
-function attack(player,type){
+if("getBattery" in navigator){
 
-    if(gameOver) return;
+    navigator.getBattery().then(
+        battery => {
 
-    if(player === 1 && attacking1) return;
-    if(player === 2 && attacking2) return;
+            function update(){
 
+                if(battery.charging){
 
-    if(player === 1){
+                    charging();
 
-        attacking1 = true;
+                }else{
 
-        fighter1.classList.add(
-            type === "kick"
-            ? "kick"
-            : "attack"
-        );
+                    notCharging();
 
-        setTimeout(()=>{
+                }
 
-            damage(1,type);
+            }
 
-        },100);
+            update();
 
-
-        setTimeout(()=>{
-
-            fighter1.classList.remove(
-                "attack",
-                "kick"
+            battery.addEventListener(
+                "chargingchange",
+                update
             );
-
-            attacking1 = false;
-
-        },350);
-
-    }
-
-
-    if(player === 2){
-
-        attacking2 = true;
-
-        fighter2.classList.add(
-            type === "kick"
-            ? "kick"
-            : "attack"
-        );
-
-        setTimeout(()=>{
-
-            damage(2,type);
-
-        },100);
-
-
-        setTimeout(()=>{
-
-            fighter2.classList.remove(
-                "attack",
-                "kick"
-            );
-
-            attacking2 = false;
-
-        },350);
-
-    }
-
-}
-
-
-/* الضرر */
-
-function damage(player,type){
-
-    if(gameOver) return;
-
-
-    const distance =
-        Math.abs(pos1 - (100-pos2));
-
-
-    /*
-       إذا الشخصيتان قريبتان
-    */
-
-    if(distance > 22) return;
-
-
-    let damageAmount =
-        type === "kick"
-        ? 15
-        : 10;
-
-
-    if(player === 1){
-
-        health2 =
-            Math.max(
-                0,
-                health2 - damageAmount
-            );
-
-        hp2.style.width =
-            health2 + "%";
-
-        fighter2.classList.add("hit");
-
-        showEffect(fighter2);
-
-        setTimeout(()=>{
-            fighter2.classList.remove("hit");
-        },200);
-
-    }
-
-
-    if(player === 2){
-
-        health1 =
-            Math.max(
-                0,
-                health1 - damageAmount
-            );
-
-        hp1.style.width =
-            health1 + "%";
-
-        fighter1.classList.add("hit");
-
-        showEffect(fighter1);
-
-        setTimeout(()=>{
-            fighter1.classList.remove("hit");
-        },200);
-
-    }
-
-
-    checkWinner();
-
-}
-
-
-/* تأثير */
-
-function showEffect(target){
-
-    const rect =
-        target.getBoundingClientRect();
-
-    effect.style.left =
-        (rect.left + 35) + "px";
-
-    effect.style.top =
-        (rect.top + 55) + "px";
-
-    effect.classList.remove("show");
-
-    void effect.offsetWidth;
-
-    effect.classList.add("show");
-
-}
-
-
-/* الفوز */
-
-function checkWinner(){
-
-    if(health1 <= 0){
-
-        gameOver = true;
-
-        winner.textContent =
-            "🏆 مبروك أبو خالد!";
-
-        message.classList.add("show");
-
-    }
-
-
-    if(health2 <= 0){
-
-        gameOver = true;
-
-        winner.textContent =
-            "🏆 مبروك أبو حسين!";
-
-        message.classList.add("show");
-
-    }
-
-}
-
-
-/* الكمبيوتر */
-
-setInterval(()=>{
-
-    if(gameOver) return;
-
-    /*
-       حركة الكمبيوتر
-    */
-
-    if(Math.random() < .45){
-
-        attack(
-            2,
-            Math.random() < .5
-            ? "punch"
-            : "kick"
-        );
-
-    }
-
-},800);
-
-
-/* الكيبورد */
-
-document.addEventListener(
-"keydown",
-e=>{
-
-    const key =
-        e.key.toLowerCase();
-
-
-    if(key === "a")
-        movePlayer(1,-1);
-
-    if(key === "d")
-        movePlayer(1,1);
-
-    if(key === "f")
-        attack(1,"punch");
-
-    if(key === "g")
-        attack(1,"kick");
-
-});
-
-
-/* أزرار الموبايل */
-
-document.querySelectorAll(".btn")
-.forEach(button=>{
-
-    button.addEventListener(
-        "pointerdown",
-        e=>{
-
-            e.preventDefault();
-
-            const key =
-                button.dataset.key;
-
-
-            if(key === "a")
-                movePlayer(1,-1);
-
-            if(key === "d")
-                movePlayer(1,1);
-
-            if(key === "f")
-                attack(1,"punch");
-
-            if(key === "g")
-                attack(1,"kick");
 
         }
     );
 
-});
+}else{
 
-
-/* إعادة */
-
-function restartGame(){
-
-    health1 = 100;
-    health2 = 100;
-
-    pos1 = 20;
-    pos2 = 20;
-
-    gameOver = false;
-
-    hp1.style.width = "100%";
-    hp2.style.width = "100%";
-
-    fighter1.style.left = "20%";
-
-    message.classList.remove("show");
+    status.textContent =
+        "⚠️ المتصفح لا يدعم اكتشاف الشحن";
 
 }
 
