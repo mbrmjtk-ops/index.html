@@ -1,335 +1,647 @@
-<!-- =========================
-     صفحة النتيجة
-     ========================= -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لعبة X O</title>
 
-<div id="resultPage" style="display:none">
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-<header class="header">
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:Tahoma,Arial,sans-serif;
+    background:linear-gradient(135deg,#101827,#18263d);
+    color:white;
+}
 
-    <h1>نتيجة امتحان</h1>
+.game{
+    width:92%;
+    max-width:420px;
+    text-align:center;
+    padding:25px;
+    border-radius:25px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 20px 60px rgba(0,0,0,.4);
+    backdrop-filter:blur(15px);
+}
 
-    <p id="resultCertificate">
-        الثانوي - علمي - منهاج إدلب | 2026
+h1{
+    font-size:38px;
+    margin-bottom:8px;
+}
+
+.subtitle{
+    color:#aebbd0;
+    margin-bottom:20px;
+}
+
+.score{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.score div{
+    flex:1;
+    padding:12px;
+    border-radius:15px;
+    background:rgba(255,255,255,.07);
+}
+
+.score span{
+    display:block;
+    font-size:25px;
+    font-weight:bold;
+    margin-top:5px;
+}
+
+.board{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.cell{
+    aspect-ratio:1;
+    border:0;
+    border-radius:18px;
+    background:#202f47;
+    color:white;
+    font-size:55px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.cell:hover{
+    background:#293c59;
+    transform:scale(1.03);
+}
+
+.cell.x{
+    color:#55d6ff;
+}
+
+.cell.o{
+    color:#ff6b9d;
+}
+
+.cell.win{
+    animation:win .6s infinite alternate;
+    box-shadow:0 0 25px rgba(255,255,255,.5);
+}
+
+@keyframes win{
+    from{
+        transform:scale(1);
+    }
+    to{
+        transform:scale(1.08);
+    }
+}
+
+.status{
+    min-height:30px;
+    margin:20px 0 15px;
+    font-size:18px;
+    font-weight:bold;
+}
+
+button.restart{
+    width:100%;
+    border:0;
+    padding:15px;
+    border-radius:15px;
+    background:#55d6ff;
+    color:#07111e;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.2s;
+}
+
+button.restart:hover{
+    transform:translateY(-2px);
+    filter:brightness(1.1);
+}
+
+.mode{
+    display:flex;
+    gap:8px;
+    margin-bottom:15px;
+}
+
+.mode button{
+    flex:1;
+    padding:10px;
+    border:0;
+    border-radius:12px;
+    cursor:pointer;
+    background:#263751;
+    color:white;
+}
+
+.mode button.active{
+    background:#55d6ff;
+    color:#07111e;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="game">
+
+    <h1>❌ X O ⭕</h1>
+
+    <p class="subtitle">
+        لعبة XO
     </p>
 
-</header>
+    <div class="mode">
 
-<main class="page">
+        <button id="pvp" class="active">
+            👥 لاعبين
+        </button>
 
-
-<!-- =========================
-     معلومات الطالب
-     ========================= -->
-
-<div class="card">
-
-<div class="info">
-
-<div class="right">
-
-    <div class="label">
-        اسم الطالب
-    </div>
-
-    <div class="value" id="studentName">
-        -
-    </div>
-
-</div>
-
-<div class="left">
-
-    <div class="label">
-        الرقم الامتحاني
-    </div>
-
-    <div class="value" id="studentExamNo">
-        -
-    </div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- =========================
-     المعدل والنجاح
-     ========================= -->
-
-<div class="card">
-
-<div class="summary">
-
-    <div class="success-box">
-
-        <div class="success-badge">
-            ✓
-        </div>
-
-        <span id="resultStatus">
-            ناجح
-        </span>
+        <button id="cpu">
+            🤖 ضد الكمبيوتر
+        </button>
 
     </div>
 
+    <div class="score">
 
-    <div class="total">
-
-        <div class="label">
-            المجموع العام
+        <div>
+            ❌ أبو حسين
+            <span id="scoreX">0</span>
         </div>
 
         <div>
-            <b id="studentTotal">0</b>
-            /
-            <span id="studentMax">0</span>
+            تعادل
+            <span id="scoreDraw">0</span>
         </div>
 
-        <div class="circle" id="studentPercentage">
-            0%
+        <div>
+            ⭕ أبو خالد
+            <span id="scoreO">0</span>
         </div>
 
     </div>
 
-</div>
+    <div class="board" id="board"></div>
+
+    <div class="status" id="status">
+        دور اللاعب ❌
+    </div>
+
+    <button class="restart" onclick="newGame()">
+        🔄 لعبة جديدة
+    </button>
 
 </div>
-
-
-<!-- =========================
-     جدول العلامات
-     ========================= -->
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-
-<tr>
-    <th>المادة</th>
-    <th>الدنيا</th>
-    <th>العظمى</th>
-    <th>النهائية</th>
-</tr>
-
-</thead>
-
-<tbody id="marksTable">
-
-</tbody>
-
-</table>
-
-</div>
-
-
-<button class="back" onclick="backToSearch()">
-    ← العودة للاستعلام
-</button>
-
-</main>
-
-</div>
-
 
 <script>
 
-/* =========================
-   بيانات النتائج
-   ========================= */
+const boardElement =
+    document.getElementById("board");
 
-const demoResults = {
+const statusElement =
+    document.getElementById("status");
 
-    "575294": {
+let board = [
+    "","","",
+    "","","",
+    "","",""
+];
 
-        name: "عبد الرحمن خالد الطويل",
+let currentPlayer = "X";
 
-        examNo: "575294",
+let gameOver = false;
 
-        certificate: "الثانوي - علمي - منهاج إدلب | 2026",
+let computerMode = false;
 
-        total: "1809",
+let scoreX = 0;
+let scoreO = 0;
+let scoreDraw = 0;
 
-        max: "2400",
+const winningLines = [
 
-        percentage: "75.40%",
+    [0,1,2],
+    [3,4,5],
+    [6,7,8],
 
-        status: "ناجح",
+    [0,3,6],
+    [1,4,7],
+    [2,5,8],
 
-        subjects: [
+    [0,4,8],
+    [2,4,6]
 
-            ["اللغة العربية", "160", "400", "333"],
-
-            ["الرياضيات", "240", "600", "240"],
-
-            ["الفيزياء", "160", "400", "229"],
-
-            ["التربية الدينية", "80", "200", "165"],
-
-            ["الكيمياء", "80", "200", "151"],
-
-            ["علم الأحياء", "120", "300", "151"],
-
-            ["اللغة الإنكليزية", "120", "300", "165"],
-
-            ["لغة فرنسية", "120", "300", "157"]
-
-        ]
-
-    },
+];
 
 
-    "1731940": {
+function createBoard(){
 
-        name: "خالد حسين الطويل",
+    boardElement.innerHTML = "";
 
-        examNo: "1731940",
+    board.forEach((value,index)=>{
 
-        certificate: "الثانوي - أدبي - منهاج إدلب | 2026",
+        const cell =
+            document.createElement("button");
 
-        total: "1592",
+        cell.className = "cell";
 
-        max: "2200",
+        if(value === "X"){
+            cell.textContent = "❌";
+            cell.classList.add("x");
+        }
 
-        percentage: "72.36%",
+        if(value === "O"){
+            cell.textContent = "⭕";
+            cell.classList.add("o");
+        }
 
-        status: "ناجح",
+        cell.onclick = () => play(index);
 
-        subjects: [
+        boardElement.appendChild(cell);
 
-            ["اللغة العربية", "300", "600", "473"],
+    });
+}
 
-            ["الجغرافيا", "120", "300", "248"],
 
-            ["الفلسفة والعلوم الإنسانية", "160", "400", "200"],
+function play(index){
 
-            ["التاريخ", "120", "300", "180"],
+    if(gameOver)
+        return;
 
-            ["التربية الدينية", "80", "200", "178"],
+    if(board[index] !== "")
+        return;
 
-            ["اللغة الإنجليزية", "160", "400", "313"],
+    if(computerMode && currentPlayer === "O")
+        return;
 
-            ["لغة فرنسية", "160", "400", "266"]
 
-        ]
+    board[index] = currentPlayer;
+
+    createBoard();
+
+
+    const result = checkWinner();
+
+
+    if(result){
+
+        finishGame(result);
+
+        return;
+    }
+
+
+    currentPlayer =
+        currentPlayer === "X"
+        ? "O"
+        : "X";
+
+
+    updateStatus();
+
+
+    if(
+        computerMode &&
+        currentPlayer === "O"
+    ){
+
+        setTimeout(computerMove,400);
 
     }
 
-};
+}
 
 
-/* =========================
-   إظهار النتيجة
-   ========================= */
+function computerMove(){
 
-function showResult(){
+    if(gameOver)
+        return;
 
-    const n =
-        document.getElementById('examNo').value.trim();
 
-    const result = demoResults[n];
+    let available =
+        board
+        .map((value,index)=>
+            value === ""
+            ? index
+            : null
+        )
+        .filter(index =>
+            index !== null
+        );
 
-    if(!result){
 
-        alert("لا توجد نتيجة لهذا الرقم");
+    if(available.length === 0)
+        return;
+
+
+    let move =
+        findBestMove("O");
+
+
+    if(move === null){
+
+        move =
+            findBestMove("X");
+
+    }
+
+
+    if(
+        move === null &&
+        board[4] === ""
+    ){
+
+        move = 4;
+
+    }
+
+
+    if(move === null){
+
+        move =
+            available[
+                Math.floor(
+                    Math.random() *
+                    available.length
+                )
+            ];
+
+    }
+
+
+    board[move] = "O";
+
+    createBoard();
+
+
+    const result =
+        checkWinner();
+
+
+    if(result){
+
+        finishGame(result);
 
         return;
 
     }
 
 
-    /* إخفاء صفحة البحث */
+    currentPlayer = "X";
 
-    document.getElementById('searchPage').style.display =
-        'none';
+    updateStatus();
 
-
-    /* إظهار صفحة النتيجة */
-
-    document.getElementById('resultPage').style.display =
-        'block';
+}
 
 
-    /* البيانات الأساسية */
+function findBestMove(player){
 
-    document.getElementById('studentName').textContent =
-        result.name;
+    for(let line of winningLines){
 
-    document.getElementById('studentExamNo').textContent =
-        result.examNo;
-
-    document.getElementById('resultCertificate').textContent =
-        result.certificate;
+        const values =
+            line.map(i => board[i]);
 
 
-    /* المجموع */
-
-    document.getElementById('studentTotal').textContent =
-        result.total;
-
-    document.getElementById('studentMax').textContent =
-        result.max;
-
-    document.getElementById('studentPercentage').textContent =
-        result.percentage;
-
-    document.getElementById('resultStatus').textContent =
-        result.status;
+        const countPlayer =
+            values.filter(
+                v => v === player
+            ).length;
 
 
-    /* =========================
-       بناء جدول العلامات
-       ========================= */
-
-    const table =
-        document.getElementById('marksTable');
-
-    table.innerHTML = "";
+        const empty =
+            line.find(
+                i => board[i] === ""
+            );
 
 
-    result.subjects.forEach(function(subject){
+        if(
+            countPlayer === 2 &&
+            empty !== undefined
+        ){
 
-        const row = document.createElement("tr");
+            return empty;
 
-        row.innerHTML = `
+        }
 
-            <td>${subject[0]}</td>
+    }
 
-            <td>${subject[1]}</td>
+    return null;
+}
 
-            <td>${subject[2]}</td>
 
-            <td>${subject[3]}</td>
+function checkWinner(){
 
-        `;
+    for(let line of winningLines){
 
-        table.appendChild(row);
+        const [a,b,c] = line;
+
+
+        if(
+            board[a] &&
+            board[a] === board[b] &&
+            board[a] === board[c]
+        ){
+
+            return {
+
+                winner:board[a],
+
+                line:line
+
+            };
+
+        }
+
+    }
+
+
+    if(
+        board.every(
+            cell => cell !== ""
+        )
+    ){
+
+        return {
+
+            winner:"draw",
+
+            line:[]
+
+        };
+
+    }
+
+
+    return null;
+
+}
+
+
+function finishGame(result){
+
+    gameOver = true;
+
+
+    if(result.winner === "draw"){
+
+        scoreDraw++;
+
+
+        document.getElementById(
+            "scoreDraw"
+        ).textContent = scoreDraw;
+
+
+        statusElement.textContent =
+            "🤝 تعادل!";
+
+    }
+
+
+    else if(result.winner === "X"){
+
+        scoreX++;
+
+
+        document.getElementById(
+            "scoreX"
+        ).textContent = scoreX;
+
+
+        statusElement.textContent =
+            "🎉 مبروك أبو حسين ❤️";
+
+    }
+
+
+    else{
+
+        scoreO++;
+
+
+        document.getElementById(
+            "scoreO"
+        ).textContent = scoreO;
+
+
+        statusElement.textContent =
+            "🎉 مبروك أبو خالد ❤️";
+
+    }
+
+
+    result.line.forEach(index => {
+
+        boardElement
+            .children[index]
+            .classList.add("win");
 
     });
 
+}
 
-    window.scrollTo(0,0);
+
+function updateStatus(){
+
+    if(currentPlayer === "X"){
+
+        statusElement.textContent =
+            "دور أبو حسين ❌";
+
+    }
+
+    else{
+
+        statusElement.textContent =
+            computerMode
+            ? "🤖 الكمبيوتر يفكر..."
+            : "دور أبو خالد ⭕";
+
+    }
 
 }
 
 
-/* =========================
-   العودة لصفحة البحث
-   ========================= */
+function newGame(){
 
-function backToSearch(){
+    board = [
+        "","","",
+        "","","",
+        "","",""
+    ];
 
-    document.getElementById('resultPage').style.display =
-        'none';
 
-    document.getElementById('searchPage').style.display =
-        'block';
+    currentPlayer = "X";
 
-    window.scrollTo(0,0);
+    gameOver = false;
+
+
+    createBoard();
+
+    updateStatus();
 
 }
+
+
+document.getElementById("pvp").onclick =
+function(){
+
+    computerMode = false;
+
+
+    this.classList.add("active");
+
+
+    document
+        .getElementById("cpu")
+        .classList.remove("active");
+
+
+    newGame();
+
+};
+
+
+document.getElementById("cpu").onclick =
+function(){
+
+    computerMode = true;
+
+
+    this.classList.add("active");
+
+
+    document
+        .getElementById("pvp")
+        .classList.remove("active");
+
+
+    newGame();
+
+};
+
+
+createBoard();
 
 </script>
+
+</body>
+</html>
