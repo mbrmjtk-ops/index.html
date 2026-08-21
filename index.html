@@ -2,159 +2,352 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>لعبة X O</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>قتال الأساطير</title>
 
 <style>
 *{
     box-sizing:border-box;
     margin:0;
     padding:0;
+    user-select:none;
 }
 
 body{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    overflow:hidden;
+    background:#080b13;
     font-family:Tahoma,Arial,sans-serif;
-    background:linear-gradient(135deg,#101827,#18263d);
     color:white;
 }
 
 .game{
-    width:92%;
-    max-width:420px;
+    width:100vw;
+    height:100vh;
+    position:relative;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 50% 30%,#293a58 0%,#111827 45%,#05070c 100%);
+}
+
+/* النجوم */
+.game::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+        radial-gradient(#fff 1px,transparent 1px),
+        radial-gradient(#fff 1px,transparent 1px);
+    background-size:80px 80px,130px 130px;
+    background-position:10px 20px,50px 70px;
+    opacity:.15;
+}
+
+/* العنوان */
+.title{
+    position:absolute;
+    top:12px;
+    width:100%;
     text-align:center;
-    padding:25px;
-    border-radius:25px;
-    background:rgba(255,255,255,.08);
-    border:1px solid rgba(255,255,255,.12);
-    box-shadow:0 20px 60px rgba(0,0,0,.4);
-    backdrop-filter:blur(15px);
-}
-
-h1{
-    font-size:38px;
-    margin-bottom:8px;
-}
-
-.subtitle{
-    color:#aebbd0;
-    margin-bottom:20px;
-}
-
-.score{
-    display:flex;
-    justify-content:space-between;
-    gap:10px;
-    margin-bottom:20px;
-}
-
-.score div{
-    flex:1;
-    padding:12px;
-    border-radius:15px;
-    background:rgba(255,255,255,.07);
-}
-
-.score span{
-    display:block;
+    z-index:10;
     font-size:25px;
     font-weight:bold;
-    margin-top:5px;
+    text-shadow:0 3px 15px #000;
 }
 
-.board{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
+/* لوحة الصحة */
+.hud{
+    position:absolute;
+    top:55px;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:15px;
+    padding:0 15px;
+    z-index:10;
 }
 
-.cell{
-    aspect-ratio:1;
-    border:0;
-    border-radius:18px;
-    background:#202f47;
-    color:white;
-    font-size:55px;
+.player{
+    width:min(38vw,300px);
+}
+
+.name{
     font-weight:bold;
-    cursor:pointer;
-    transition:.2s;
+    margin-bottom:5px;
+    text-shadow:0 2px 5px #000;
 }
 
-.cell:hover{
-    background:#293c59;
-    transform:scale(1.03);
+.health{
+    height:22px;
+    background:#202633;
+    border:2px solid #fff;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 0 12px #000;
 }
 
-.cell.x{
-    color:#55d6ff;
+.hp{
+    height:100%;
+    width:100%;
+    transition:.25s;
 }
 
-.cell.o{
-    color:#ff6b9d;
+.hp1{
+    background:linear-gradient(90deg,#00e5ff,#168cff);
 }
 
-.cell.win{
-    animation:win .6s infinite alternate;
-    box-shadow:0 0 25px rgba(255,255,255,.5);
+.hp2{
+    background:linear-gradient(90deg,#ff315c,#ff8a00);
 }
 
-@keyframes win{
-    from{
-        transform:scale(1);
+.vs{
+    font-size:22px;
+    font-weight:bold;
+}
+
+/* الساحة */
+.arena{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    padding-bottom:125px;
+}
+
+.floor{
+    position:absolute;
+    bottom:80px;
+    width:100%;
+    height:140px;
+    background:
+        linear-gradient(180deg,#171d2a,#090c12);
+    border-top:3px solid #39465d;
+    box-shadow:0 -20px 50px rgba(0,0,0,.5);
+}
+
+/* الشخصيات */
+.fighter{
+    position:absolute;
+    bottom:105px;
+    width:100px;
+    height:150px;
+    transition:left .08s,bottom .08s;
+    z-index:5;
+}
+
+.f1{
+    left:20%;
+}
+
+.f2{
+    right:20%;
+    transform:scaleX(-1);
+}
+
+/* رأس */
+.head{
+    position:absolute;
+    top:5px;
+    left:25px;
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    background:#f1b48c;
+    border:4px solid #161616;
+}
+
+/* شعر */
+.head::before{
+    content:"";
+    position:absolute;
+    top:-6px;
+    left:0;
+    width:50px;
+    height:22px;
+    border-radius:30px 30px 10px 10px;
+    background:#161616;
+}
+
+/* جسم */
+.body{
+    position:absolute;
+    top:52px;
+    left:28px;
+    width:44px;
+    height:58px;
+    border-radius:15px;
+    background:linear-gradient(#15b8ff,#0754a3);
+    border:4px solid #111;
+}
+
+/* الأرجل */
+.leg{
+    position:absolute;
+    top:105px;
+    width:18px;
+    height:50px;
+    border-radius:10px;
+    background:#182536;
+    border:4px solid #111;
+}
+
+.leg1{
+    left:27px;
+}
+
+.leg2{
+    left:57px;
+}
+
+/* الأيدي */
+.arm{
+    position:absolute;
+    top:58px;
+    width:17px;
+    height:55px;
+    border-radius:10px;
+    background:#f1b48c;
+    border:4px solid #111;
+    transform-origin:top center;
+}
+
+.arm1{
+    left:10px;
+    transform:rotate(25deg);
+}
+
+.arm2{
+    left:73px;
+    transform:rotate(-25deg);
+}
+
+/* وضعية الضرب */
+.fighter.attack .arm2{
+    transform:rotate(-90deg);
+    height:70px;
+}
+
+.fighter.kick .leg2{
+    transform:rotate(55deg);
+    transform-origin:top;
+    height:65px;
+}
+
+.fighter.hit{
+    animation:shake .18s linear;
+}
+
+@keyframes shake{
+    0%{transform:translateX(0)}
+    25%{transform:translateX(-8px)}
+    50%{transform:translateX(8px)}
+    75%{transform:translateX(-5px)}
+    100%{transform:translateX(0)}
+}
+
+/* تأثير الضربة */
+.hitEffect{
+    position:absolute;
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    border:5px solid #fff;
+    opacity:0;
+    pointer-events:none;
+    z-index:20;
+}
+
+.hitEffect.show{
+    animation:boom .35s ease-out;
+}
+
+@keyframes boom{
+    0%{
+        transform:scale(.2);
+        opacity:1;
     }
-    to{
-        transform:scale(1.08);
+    100%{
+        transform:scale(1.7);
+        opacity:0;
     }
 }
 
-.status{
-    min-height:30px;
-    margin:20px 0 15px;
+/* رسالة الفوز */
+.message{
+    position:absolute;
+    inset:0;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    background:rgba(0,0,0,.65);
+    backdrop-filter:blur(5px);
+    z-index:50;
+}
+
+.message.show{
+    display:flex;
+}
+
+.message h2{
+    font-size:42px;
+    margin-bottom:20px;
+    text-shadow:0 0 25px #00d9ff;
+}
+
+.restart{
+    border:0;
+    padding:15px 35px;
+    border-radius:15px;
+    background:#00c8ff;
+    color:#061019;
     font-size:18px;
     font-weight:bold;
 }
 
-button.restart{
-    width:100%;
-    border:0;
-    padding:15px;
-    border-radius:15px;
-    background:#55d6ff;
-    color:#07111e;
-    font-size:17px;
-    font-weight:bold;
-    cursor:pointer;
-    transition:.2s;
-}
-
-button.restart:hover{
-    transform:translateY(-2px);
-    filter:brightness(1.1);
-}
-
-.mode{
+/* أزرار */
+.controls{
+    position:absolute;
+    bottom:12px;
+    left:0;
+    right:0;
     display:flex;
-    gap:8px;
-    margin-bottom:15px;
+    justify-content:space-between;
+    padding:0 18px;
+    z-index:30;
 }
 
-.mode button{
-    flex:1;
-    padding:10px;
-    border:0;
-    border-radius:12px;
-    cursor:pointer;
-    background:#263751;
+.controlGroup{
+    display:flex;
+    gap:10px;
+}
+
+.btn{
+    width:65px;
+    height:65px;
+    border:2px solid rgba(255,255,255,.2);
+    border-radius:50%;
+    background:rgba(255,255,255,.1);
     color:white;
+    font-size:25px;
+    backdrop-filter:blur(10px);
+    box-shadow:0 8px 20px #0008;
+    touch-action:none;
 }
 
-.mode button.active{
-    background:#55d6ff;
-    color:#07111e;
-    font-weight:bold;
+.btn:active{
+    transform:scale(.9);
+    background:#00a9d9;
+}
+
+.info{
+    position:absolute;
+    bottom:92px;
+    width:100%;
+    text-align:center;
+    color:#9ba7ba;
+    font-size:12px;
 }
 </style>
 </head>
@@ -163,483 +356,447 @@ button.restart:hover{
 
 <div class="game">
 
-    <h1>❌ X O ⭕</h1>
+<div class="title">⚔️ قتال الأساطير ⚔️</div>
 
-    <p class="subtitle">
-        لعبة XO
-    </p>
+<div class="hud">
 
-    <div class="mode">
+    <div class="player">
+        <div class="name">🥊 أبو حسين</div>
+        <div class="health">
+            <div id="hp1" class="hp hp1"></div>
+        </div>
+    </div>
 
-        <button id="pvp" class="active">
-            👥 لاعبين
-        </button>
+    <div class="vs">VS</div>
 
-        <button id="cpu">
-            🤖 ضد الكمبيوتر
-        </button>
+    <div class="player">
+        <div class="name">🥊 أبو خالد</div>
+        <div class="health">
+            <div id="hp2" class="hp hp2"></div>
+        </div>
+    </div>
+
+</div>
+
+<div class="arena">
+
+    <div class="floor"></div>
+
+    <div id="fighter1" class="fighter f1">
+
+        <div class="head"></div>
+
+        <div class="body"></div>
+
+        <div class="arm arm1"></div>
+        <div class="arm arm2"></div>
+
+        <div class="leg leg1"></div>
+        <div class="leg leg2"></div>
 
     </div>
 
-    <div class="score">
+    <div id="fighter2" class="fighter f2">
 
-        <div>
-            ❌ أبو حسين
-            <span id="scoreX">0</span>
-        </div>
+        <div class="head"></div>
 
-        <div>
-            تعادل
-            <span id="scoreDraw">0</span>
-        </div>
+        <div class="body"></div>
 
-        <div>
-            ⭕ أبو خالد
-            <span id="scoreO">0</span>
-        </div>
+        <div class="arm arm1"></div>
+        <div class="arm arm2"></div>
+
+        <div class="leg leg1"></div>
+        <div class="leg leg2"></div>
 
     </div>
 
-    <div class="board" id="board"></div>
+</div>
 
-    <div class="status" id="status">
-        دور اللاعب ❌
+<div class="info">
+    أبو حسين: A / D للحركة — F ضربة — G ركلة
+</div>
+
+<div class="controls">
+
+    <div class="controlGroup">
+        <button class="btn" data-key="a">◀</button>
+        <button class="btn" data-key="d">▶</button>
+        <button class="btn" data-key="f">👊</button>
+        <button class="btn" data-key="g">🦵</button>
     </div>
 
-    <button class="restart" onclick="newGame()">
-        🔄 لعبة جديدة
+</div>
+
+<div id="effect" class="hitEffect"></div>
+
+<div id="message" class="message">
+
+    <h2 id="winner"></h2>
+
+    <button class="restart" onclick="restartGame()">
+        🔄 إعادة القتال
     </button>
+
+</div>
 
 </div>
 
 <script>
 
-const boardElement =
-    document.getElementById("board");
+const fighter1 =
+document.getElementById("fighter1");
 
-const statusElement =
-    document.getElementById("status");
+const fighter2 =
+document.getElementById("fighter2");
 
-let board = [
-    "","","",
-    "","","",
-    "","",""
-];
+const hp1 =
+document.getElementById("hp1");
 
-let currentPlayer = "X";
+const hp2 =
+document.getElementById("hp2");
+
+const message =
+document.getElementById("message");
+
+const winner =
+document.getElementById("winner");
+
+const effect =
+document.getElementById("effect");
+
+
+let health1 = 100;
+let health2 = 100;
+
+let pos1 = 20;
+let pos2 = 20;
+
+let attacking1 = false;
+let attacking2 = false;
 
 let gameOver = false;
 
-let computerMode = false;
 
-let scoreX = 0;
-let scoreO = 0;
-let scoreDraw = 0;
+/* حركة اللاعب */
 
-const winningLines = [
+function movePlayer(player,direction){
 
-    [0,1,2],
-    [3,4,5],
-    [6,7,8],
+    if(gameOver) return;
 
-    [0,3,6],
-    [1,4,7],
-    [2,5,8],
+    if(player === 1){
 
-    [0,4,8],
-    [2,4,6]
+        pos1 += direction * 2;
 
-];
+        pos1 = Math.max(5,Math.min(55,pos1));
 
-
-function createBoard(){
-
-    boardElement.innerHTML = "";
-
-    board.forEach((value,index)=>{
-
-        const cell =
-            document.createElement("button");
-
-        cell.className = "cell";
-
-        if(value === "X"){
-            cell.textContent = "❌";
-            cell.classList.add("x");
-        }
-
-        if(value === "O"){
-            cell.textContent = "⭕";
-            cell.classList.add("o");
-        }
-
-        cell.onclick = () => play(index);
-
-        boardElement.appendChild(cell);
-
-    });
-}
-
-
-function play(index){
-
-    if(gameOver)
-        return;
-
-    if(board[index] !== "")
-        return;
-
-    if(computerMode && currentPlayer === "O")
-        return;
-
-
-    board[index] = currentPlayer;
-
-    createBoard();
-
-
-    const result = checkWinner();
-
-
-    if(result){
-
-        finishGame(result);
-
-        return;
-    }
-
-
-    currentPlayer =
-        currentPlayer === "X"
-        ? "O"
-        : "X";
-
-
-    updateStatus();
-
-
-    if(
-        computerMode &&
-        currentPlayer === "O"
-    ){
-
-        setTimeout(computerMove,400);
+        fighter1.style.left = pos1 + "%";
 
     }
 
 }
 
 
-function computerMove(){
+/* الهجوم */
 
-    if(gameOver)
-        return;
+function attack(player,type){
+
+    if(gameOver) return;
+
+    if(player === 1 && attacking1) return;
+    if(player === 2 && attacking2) return;
 
 
-    let available =
-        board
-        .map((value,index)=>
-            value === ""
-            ? index
-            : null
-        )
-        .filter(index =>
-            index !== null
+    if(player === 1){
+
+        attacking1 = true;
+
+        fighter1.classList.add(
+            type === "kick"
+            ? "kick"
+            : "attack"
         );
 
+        setTimeout(()=>{
 
-    if(available.length === 0)
-        return;
+            damage(1,type);
 
-
-    let move =
-        findBestMove("O");
+        },100);
 
 
-    if(move === null){
+        setTimeout(()=>{
 
-        move =
-            findBestMove("X");
-
-    }
-
-
-    if(
-        move === null &&
-        board[4] === ""
-    ){
-
-        move = 4;
-
-    }
-
-
-    if(move === null){
-
-        move =
-            available[
-                Math.floor(
-                    Math.random() *
-                    available.length
-                )
-            ];
-
-    }
-
-
-    board[move] = "O";
-
-    createBoard();
-
-
-    const result =
-        checkWinner();
-
-
-    if(result){
-
-        finishGame(result);
-
-        return;
-
-    }
-
-
-    currentPlayer = "X";
-
-    updateStatus();
-
-}
-
-
-function findBestMove(player){
-
-    for(let line of winningLines){
-
-        const values =
-            line.map(i => board[i]);
-
-
-        const countPlayer =
-            values.filter(
-                v => v === player
-            ).length;
-
-
-        const empty =
-            line.find(
-                i => board[i] === ""
+            fighter1.classList.remove(
+                "attack",
+                "kick"
             );
 
+            attacking1 = false;
 
-        if(
-            countPlayer === 2 &&
-            empty !== undefined
-        ){
-
-            return empty;
-
-        }
+        },350);
 
     }
 
-    return null;
+
+    if(player === 2){
+
+        attacking2 = true;
+
+        fighter2.classList.add(
+            type === "kick"
+            ? "kick"
+            : "attack"
+        );
+
+        setTimeout(()=>{
+
+            damage(2,type);
+
+        },100);
+
+
+        setTimeout(()=>{
+
+            fighter2.classList.remove(
+                "attack",
+                "kick"
+            );
+
+            attacking2 = false;
+
+        },350);
+
+    }
+
 }
 
+
+/* الضرر */
+
+function damage(player,type){
+
+    if(gameOver) return;
+
+
+    const distance =
+        Math.abs(pos1 - (100-pos2));
+
+
+    /*
+       إذا الشخصيتان قريبتان
+    */
+
+    if(distance > 22) return;
+
+
+    let damageAmount =
+        type === "kick"
+        ? 15
+        : 10;
+
+
+    if(player === 1){
+
+        health2 =
+            Math.max(
+                0,
+                health2 - damageAmount
+            );
+
+        hp2.style.width =
+            health2 + "%";
+
+        fighter2.classList.add("hit");
+
+        showEffect(fighter2);
+
+        setTimeout(()=>{
+            fighter2.classList.remove("hit");
+        },200);
+
+    }
+
+
+    if(player === 2){
+
+        health1 =
+            Math.max(
+                0,
+                health1 - damageAmount
+            );
+
+        hp1.style.width =
+            health1 + "%";
+
+        fighter1.classList.add("hit");
+
+        showEffect(fighter1);
+
+        setTimeout(()=>{
+            fighter1.classList.remove("hit");
+        },200);
+
+    }
+
+
+    checkWinner();
+
+}
+
+
+/* تأثير */
+
+function showEffect(target){
+
+    const rect =
+        target.getBoundingClientRect();
+
+    effect.style.left =
+        (rect.left + 35) + "px";
+
+    effect.style.top =
+        (rect.top + 55) + "px";
+
+    effect.classList.remove("show");
+
+    void effect.offsetWidth;
+
+    effect.classList.add("show");
+
+}
+
+
+/* الفوز */
 
 function checkWinner(){
 
-    for(let line of winningLines){
+    if(health1 <= 0){
 
-        const [a,b,c] = line;
+        gameOver = true;
+
+        winner.textContent =
+            "🏆 مبروك أبو خالد!";
+
+        message.classList.add("show");
+
+    }
 
 
-        if(
-            board[a] &&
-            board[a] === board[b] &&
-            board[a] === board[c]
-        ){
+    if(health2 <= 0){
 
-            return {
+        gameOver = true;
 
-                winner:board[a],
+        winner.textContent =
+            "🏆 مبروك أبو حسين!";
 
-                line:line
+        message.classList.add("show");
 
-            };
+    }
+
+}
+
+
+/* الكمبيوتر */
+
+setInterval(()=>{
+
+    if(gameOver) return;
+
+    /*
+       حركة الكمبيوتر
+    */
+
+    if(Math.random() < .45){
+
+        attack(
+            2,
+            Math.random() < .5
+            ? "punch"
+            : "kick"
+        );
+
+    }
+
+},800);
+
+
+/* الكيبورد */
+
+document.addEventListener(
+"keydown",
+e=>{
+
+    const key =
+        e.key.toLowerCase();
+
+
+    if(key === "a")
+        movePlayer(1,-1);
+
+    if(key === "d")
+        movePlayer(1,1);
+
+    if(key === "f")
+        attack(1,"punch");
+
+    if(key === "g")
+        attack(1,"kick");
+
+});
+
+
+/* أزرار الموبايل */
+
+document.querySelectorAll(".btn")
+.forEach(button=>{
+
+    button.addEventListener(
+        "pointerdown",
+        e=>{
+
+            e.preventDefault();
+
+            const key =
+                button.dataset.key;
+
+
+            if(key === "a")
+                movePlayer(1,-1);
+
+            if(key === "d")
+                movePlayer(1,1);
+
+            if(key === "f")
+                attack(1,"punch");
+
+            if(key === "g")
+                attack(1,"kick");
 
         }
+    );
 
-    }
-
-
-    if(
-        board.every(
-            cell => cell !== ""
-        )
-    ){
-
-        return {
-
-            winner:"draw",
-
-            line:[]
-
-        };
-
-    }
+});
 
 
-    return null;
+/* إعادة */
 
-}
+function restartGame(){
 
+    health1 = 100;
+    health2 = 100;
 
-function finishGame(result){
-
-    gameOver = true;
-
-
-    if(result.winner === "draw"){
-
-        scoreDraw++;
-
-
-        document.getElementById(
-            "scoreDraw"
-        ).textContent = scoreDraw;
-
-
-        statusElement.textContent =
-            "🤝 تعادل!";
-
-    }
-
-
-    else if(result.winner === "X"){
-
-        scoreX++;
-
-
-        document.getElementById(
-            "scoreX"
-        ).textContent = scoreX;
-
-
-        statusElement.textContent =
-            "🎉 مبروك أبو حسين ❤️";
-
-    }
-
-
-    else{
-
-        scoreO++;
-
-
-        document.getElementById(
-            "scoreO"
-        ).textContent = scoreO;
-
-
-        statusElement.textContent =
-            "🎉 مبروك أبو خالد ❤️";
-
-    }
-
-
-    result.line.forEach(index => {
-
-        boardElement
-            .children[index]
-            .classList.add("win");
-
-    });
-
-}
-
-
-function updateStatus(){
-
-    if(currentPlayer === "X"){
-
-        statusElement.textContent =
-            "دور أبو حسين ❌";
-
-    }
-
-    else{
-
-        statusElement.textContent =
-            computerMode
-            ? "🤖 الكمبيوتر يفكر..."
-            : "دور أبو خالد ⭕";
-
-    }
-
-}
-
-
-function newGame(){
-
-    board = [
-        "","","",
-        "","","",
-        "","",""
-    ];
-
-
-    currentPlayer = "X";
+    pos1 = 20;
+    pos2 = 20;
 
     gameOver = false;
 
+    hp1.style.width = "100%";
+    hp2.style.width = "100%";
 
-    createBoard();
+    fighter1.style.left = "20%";
 
-    updateStatus();
+    message.classList.remove("show");
 
 }
-
-
-document.getElementById("pvp").onclick =
-function(){
-
-    computerMode = false;
-
-
-    this.classList.add("active");
-
-
-    document
-        .getElementById("cpu")
-        .classList.remove("active");
-
-
-    newGame();
-
-};
-
-
-document.getElementById("cpu").onclick =
-function(){
-
-    computerMode = true;
-
-
-    this.classList.add("active");
-
-
-    document
-        .getElementById("pvp")
-        .classList.remove("active");
-
-
-    newGame();
-
-};
-
-
-createBoard();
 
 </script>
 
